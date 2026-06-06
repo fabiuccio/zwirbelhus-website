@@ -1,0 +1,353 @@
+/* ============================================================
+   ZWIRBELHUS — Design System tokens & base components
+   Warm, cozy, illustrated Kita aesthetic. Three directions:
+     [data-theme="himmel"]  Dusty Sky Blue + clay   (default)
+     [data-theme="wolke"]   Powder blue + blush     (soft / editorial)
+     [data-theme="sonne"]   Denim + sunny ochre     (playful / bold)
+   Themes only swap tokens (color + font vars); components read tokens.
+   ============================================================ */
+
+/* ---------- Fonts ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Mulish:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Baloo+2:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap');
+
+/* ============================================================
+   DIRECTION A — HIMMEL  (default)  dusty sky blue + warm clay
+   ============================================================ */
+:root,
+[data-theme="himmel"] {
+  --font-display: 'Fredoka', system-ui, sans-serif;
+  --font-body: 'Nunito', system-ui, sans-serif;
+  --display-weight: 600;
+  --display-tracking: -0.01em;
+
+  --base:        oklch(0.975 0.009 235);   /* page bg, soft cool cream */
+  --surface:     oklch(0.995 0.004 235);   /* cards */
+  --surface-2:   oklch(0.955 0.013 235);   /* tinted panels */
+  --ink:         oklch(0.34 0.028 250);    /* headings/body */
+  --ink-soft:    oklch(0.52 0.022 250);    /* secondary text */
+  --line:        oklch(0.90 0.012 235);    /* hairlines */
+
+  --primary:     oklch(0.71 0.078 240);    /* sky blue */
+  --primary-deep:oklch(0.60 0.085 245);
+  --primary-ink: oklch(0.40 0.075 248);    /* text on tint */
+  --primary-soft:oklch(0.93 0.030 238);    /* tint bg */
+
+  --accent:      oklch(0.73 0.085 47);     /* warm clay */
+  --accent-soft: oklch(0.92 0.035 55);
+  --sun:         oklch(0.85 0.085 92);     /* buttery pop */
+  --sun-soft:    oklch(0.94 0.045 95);
+
+  --on-primary:  oklch(0.99 0.01 235);     /* text on solid primary */
+  --on-accent:   oklch(0.99 0.01 55);
+
+  --radius-pill: 999px;
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+  --shadow-soft: 0 18px 40px -28px oklch(0.50 0.06 250 / 0.45);
+  --shadow-card: 0 10px 30px -20px oklch(0.45 0.05 250 / 0.40);
+}
+
+/* ============================================================
+   DIRECTION B — WOLKE   powder blue + dusty blush, warm serif heads
+   ============================================================ */
+[data-theme="wolke"] {
+  --font-display: 'Newsreader', Georgia, serif;
+  --font-body: 'Mulish', system-ui, sans-serif;
+  --display-weight: 500;
+  --display-tracking: -0.005em;
+
+  --base:        oklch(0.978 0.006 250);
+  --surface:     oklch(0.997 0.003 250);
+  --surface-2:   oklch(0.958 0.010 250);
+  --ink:         oklch(0.33 0.022 268);
+  --ink-soft:    oklch(0.52 0.018 268);
+  --line:        oklch(0.91 0.010 250);
+
+  --primary:     oklch(0.78 0.052 237);
+  --primary-deep:oklch(0.66 0.060 240);
+  --primary-ink: oklch(0.44 0.055 244);
+  --primary-soft:oklch(0.94 0.024 240);
+
+  --accent:      oklch(0.79 0.055 18);     /* dusty blush */
+  --accent-soft: oklch(0.94 0.026 20);
+  --sun:         oklch(0.85 0.055 70);
+  --sun-soft:    oklch(0.95 0.030 70);
+
+  --on-primary:  oklch(0.99 0.008 240);
+  --on-accent:   oklch(0.32 0.04 25);
+
+  --radius-pill: 999px;
+  --radius-lg: 22px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+  --shadow-soft: 0 18px 44px -30px oklch(0.50 0.05 260 / 0.40);
+  --shadow-card: 0 12px 30px -22px oklch(0.45 0.04 260 / 0.34);
+}
+
+/* ============================================================
+   DIRECTION C — SONNE   denim sky + sunny ochre, chunky rounded
+   ============================================================ */
+[data-theme="sonne"] {
+  --font-display: 'Baloo 2', system-ui, sans-serif;
+  --font-body: 'Quicksand', system-ui, sans-serif;
+  --display-weight: 600;
+  --display-tracking: 0em;
+
+  /* Logo-inspired palette: deep teal, playful turquoise, warm orange */
+  --base:        oklch(0.985 0.008 205);   /* clean warm white */
+  --surface:     oklch(0.998 0.004 205);
+  --surface-2:   oklch(0.962 0.026 205);   /* pale aqua panels */
+  --ink:         oklch(0.30 0.040 225);    /* deep blue-teal text */
+  --ink-soft:    oklch(0.49 0.030 225);
+  --line:        oklch(0.89 0.020 205);
+
+  --primary:     oklch(0.56 0.110 220);    /* Zwirbelhus teal */
+  --primary-deep:oklch(0.43 0.100 225);
+  --primary-ink: oklch(0.38 0.090 225);
+  --primary-soft:oklch(0.93 0.045 205);    /* logo aqua tint */
+
+  --accent:      oklch(0.72 0.175 48);     /* logo orange */
+  --accent-soft: oklch(0.94 0.055 55);     /* soft peach */
+  --sun:         oklch(0.84 0.135 78);     /* warm yellow-orange */
+  --sun-soft:    oklch(0.96 0.055 80);
+
+  --on-primary:  oklch(0.99 0.010 205);
+  --on-accent:   oklch(0.30 0.060 55);
+
+  --radius-pill: 999px;
+  --radius-lg: 30px;
+  --radius-md: 20px;
+  --radius-sm: 14px;
+  --shadow-soft: 0 20px 44px -28px oklch(0.40 0.08 220 / 0.48);
+  --shadow-card: 0 12px 32px -20px oklch(0.36 0.07 220 / 0.38);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--base);
+  font-size: 18px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'kern';
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--display-tracking);
+  color: var(--ink);
+  line-height: 1.08;
+  margin: 0 0 0.4em;
+  text-wrap: balance;
+}
+.t-hero    { font-size: clamp(2.8rem, 6vw, 5rem); line-height: 1.02; }
+.t-display { font-size: clamp(2.2rem, 4.4vw, 3.4rem); }
+.t-title   { font-size: clamp(1.7rem, 3vw, 2.3rem); }
+.t-head    { font-size: clamp(1.25rem, 2vw, 1.55rem); }
+.t-eyebrow {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--primary-ink);
+}
+p { margin: 0 0 1rem; text-wrap: pretty; }
+.lead { font-size: 1.22rem; color: var(--ink-soft); }
+.muted { color: var(--ink-soft); }
+a { color: var(--primary-ink); text-decoration-color: color-mix(in oklab, var(--primary) 45%, transparent); text-underline-offset: 3px; }
+
+::selection { background: var(--primary-soft); color: var(--primary-ink); }
+
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+.section { padding: clamp(56px, 8vw, 104px) 0; }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.02rem;
+  letter-spacing: 0.005em;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 0.82em 1.6em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  cursor: pointer;
+  transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease, background .2s ease, color .2s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn:active { transform: translateY(1px) scale(.99); }
+.btn-primary {
+  background: var(--primary);
+  color: var(--on-primary);
+  box-shadow: 0 12px 22px -12px color-mix(in oklab, var(--primary) 70%, black);
+}
+.btn-primary:hover { background: var(--primary-deep); transform: translateY(-2px); }
+.btn-accent {
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 0 12px 22px -12px color-mix(in oklab, var(--accent) 70%, black);
+}
+.btn-accent:hover { transform: translateY(-2px); filter: saturate(1.05); }
+.btn-soft {
+  background: var(--primary-soft);
+  color: var(--primary-ink);
+}
+.btn-soft:hover { background: color-mix(in oklab, var(--primary-soft) 75%, var(--primary)); transform: translateY(-2px); }
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 2px solid var(--line);
+}
+.btn-ghost:hover { border-color: var(--primary); color: var(--primary-ink); transform: translateY(-2px); }
+.btn-sm { font-size: 0.9rem; padding: 0.6em 1.15em; }
+.btn-lg { font-size: 1.14rem; padding: 0.95em 1.9em; }
+
+/* ============================================================
+   FORM CONTROLS
+   ============================================================ */
+.field { display: flex; flex-direction: column; gap: 0.4em; margin-bottom: 1.1rem; }
+.field > label { font-family: var(--font-display); font-weight: 500; font-size: 0.98rem; color: var(--ink); }
+.input, .textarea, .select {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--ink);
+  background: var(--surface);
+  border: 2px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 0.7em 0.95em;
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+  width: 100%;
+}
+.input::placeholder, .textarea::placeholder { color: color-mix(in oklab, var(--ink-soft) 70%, transparent); }
+.input:focus, .textarea:focus, .select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-soft);
+  background: var(--surface);
+}
+.textarea { min-height: 116px; resize: vertical; }
+.select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--ink-soft) 50%), linear-gradient(135deg, var(--ink-soft) 50%, transparent 50%); background-position: calc(100% - 20px) 1.25em, calc(100% - 14px) 1.25em; background-size: 6px 6px, 6px 6px; background-repeat: no-repeat; padding-right: 2.6em; }
+
+/* check + radio (pill toggle look) */
+.checkrow { display: inline-flex; align-items: center; gap: 0.6em; cursor: pointer; font-weight: 600; color: var(--ink); }
+.checkrow input { position: absolute; opacity: 0; pointer-events: none; }
+.checkbox-box {
+  width: 26px; height: 26px; border-radius: 9px; border: 2px solid var(--line);
+  background: var(--surface); display: grid; place-items: center; transition: all .16s ease;
+  color: transparent;
+}
+.checkrow input:checked + .checkbox-box { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+.checkrow input:focus-visible + .checkbox-box { box-shadow: 0 0 0 4px var(--primary-soft); }
+
+/* tag chips */
+.chip {
+  display: inline-flex; align-items: center; gap: 0.45em;
+  font-family: var(--font-display); font-weight: 500; font-size: 0.88rem;
+  background: var(--surface-2); color: var(--ink);
+  border-radius: var(--radius-pill); padding: 0.4em 0.9em;
+  border: 1.5px solid var(--line);
+}
+.chip.is-primary { background: var(--primary-soft); color: var(--primary-ink); border-color: transparent; }
+.chip.is-accent { background: var(--accent-soft); color: var(--on-accent); border-color: transparent; }
+.chip.is-sun { background: var(--sun-soft); color: var(--ink); border-color: transparent; }
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid color-mix(in oklab, var(--line) 60%, transparent);
+}
+.card-tint { background: var(--primary-soft); box-shadow: none; border: none; }
+.card-accent { background: var(--accent-soft); box-shadow: none; border: none; }
+.card-feature .ic-badge { margin-bottom: 16px; }
+.card h3 { margin-bottom: 0.3em; }
+.card-link { text-decoration: none; color: inherit; display: block; transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease; }
+.card-link:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft); }
+
+/* icon badge — rounded blob holding an icon */
+.ic-badge {
+  width: 58px; height: 58px; display: grid; place-items: center;
+  border-radius: 42% 58% 60% 40% / 52% 44% 56% 48%;
+  background: var(--primary-soft); color: var(--primary-ink);
+}
+.ic-badge.accent { background: var(--accent-soft); color: var(--on-accent); }
+.ic-badge.sun { background: var(--sun-soft); color: color-mix(in oklab, var(--ink) 80%, var(--accent)); }
+.ic-badge svg { width: 30px; height: 30px; }
+
+/* ============================================================
+   SHAPE LANGUAGE — blobs, hearts, waves, dotted paths
+   ============================================================ */
+.blob {
+  border-radius: 42% 58% 63% 37% / 45% 38% 62% 55%;
+}
+.blob-2 { border-radius: 58% 42% 38% 62% / 56% 49% 51% 44%; }
+
+.heart { display: inline-block; color: var(--primary); }
+.heart svg { width: 1em; height: 1em; display: block; }
+
+.wave-divider { display: block; width: 100%; height: 48px; color: var(--surface); }
+.dot-path { color: var(--accent); }
+
+/* striped image placeholder */
+.ph {
+  position: relative;
+  border-radius: var(--radius-lg);
+  background:
+    repeating-linear-gradient(135deg,
+      color-mix(in oklab, var(--primary) 14%, var(--surface)) 0 14px,
+      color-mix(in oklab, var(--primary) 7%, var(--surface)) 14px 28px);
+  border: 1.5px dashed color-mix(in oklab, var(--primary) 35%, var(--line));
+  display: grid; place-items: center;
+  overflow: hidden;
+}
+.ph::after {
+  content: attr(data-label);
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.78rem; letter-spacing: 0.04em;
+  color: var(--primary-ink);
+  background: color-mix(in oklab, var(--surface) 80%, transparent);
+  padding: 0.4em 0.8em; border-radius: 999px;
+}
+.ph.accent { background:
+    repeating-linear-gradient(135deg,
+      color-mix(in oklab, var(--accent) 16%, var(--surface)) 0 14px,
+      color-mix(in oklab, var(--accent) 8%, var(--surface)) 14px 28px);
+  border-color: color-mix(in oklab, var(--accent) 38%, var(--line)); }
+.ph.accent::after { color: var(--on-accent); }
+
+/* scattered decorative hearts utility */
+.float-heart { position: absolute; color: var(--primary); opacity: .85; pointer-events: none; }
+.float-heart.accent { color: var(--accent); }
+.float-heart.sun { color: var(--sun); }
+
+/* ============================================================
+   LAYOUT HELPERS
+   ============================================================ */
+.grid { display: grid; gap: 24px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.cluster { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+.stack-sm { display: flex; flex-direction: column; gap: 10px; }
+@media (max-width: 880px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  body { font-size: 17px; }
+}

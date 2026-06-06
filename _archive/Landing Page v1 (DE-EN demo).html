@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="sonne">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zwirbelhus — Kita in Siebnen</title>
+<link rel="stylesheet" href="theme.css">
+<style>
+  /* ---- top bar + nav (be-kids style, centered logo) ---- */
+  .topbar { background: var(--primary-soft); color: var(--primary-ink); font-size: 0.85rem; font-weight: 600; font-family: var(--font-display); }
+  .topbar .wrap { display:flex; align-items:center; justify-content:space-between; min-height:42px; gap:18px; }
+  .topbar a { color: var(--primary-ink); text-decoration:none; display:inline-flex; align-items:center; gap:.4em; white-space:nowrap; }
+  @media (max-width: 560px){ .topbar .cluster:first-child { display:none; } }
+  .topbar .ic { width:1.1em; height:1.1em; }
+
+  .nav { position: sticky; top:0; z-index:40; background: color-mix(in oklab, var(--base) 90%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .nav .wrap { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; min-height:86px; gap:20px; }
+  .nav-links { display:flex; gap:24px; font-family: var(--font-display); font-weight:500; }
+  .nav-links.right { justify-content:flex-end; }
+  .nav-links a { color: var(--ink); text-decoration:none; transition:color .15s; }
+  .nav-links a:hover { color: var(--primary-ink); }
+  .logo { display:flex; flex-direction:column; align-items:center; gap:2px; text-decoration:none; }
+  .logo .mark { width:48px; height:48px; color: var(--primary); }
+  .logo .word { font-family: var(--font-display); font-weight:600; font-size:1.4rem; color: var(--ink); line-height:1; }
+  .logo .word b { color: var(--primary-ink); font-weight:600; }
+  .nav .cta { display:flex; justify-content:flex-end; }
+  @media (max-width: 980px){ .nav-links { display:none; } .nav .wrap { grid-template-columns:auto 1fr; } .nav .cta{ display:none; } }
+
+  /* hero */
+  .hero { position: relative; overflow: hidden; padding: clamp(40px,6vw,80px) 0 clamp(56px,7vw,96px); }
+  .hero .grid-hero { display:grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items:center; }
+  @media (max-width: 920px){ .hero .grid-hero { grid-template-columns:1fr; } }
+  .hero .scene { position:relative; }
+  .hero .scene .ph { height: 420px; }
+  .float-heart svg { display:block; }
+  .squiggle { position:absolute; pointer-events:none; color: var(--accent); }
+
+  .band { background: var(--surface-2); }
+  .band-primary { background: var(--primary-soft); }
+  .stat { text-align:center; }
+  .stat .n { font-family: var(--font-display); font-weight:700; font-size: clamp(2.2rem,4vw,3rem); color: var(--primary-ink); line-height:1; }
+  .stat .l { color: var(--ink-soft); font-size:.95rem; margin-top:6px; }
+
+  .day-list { display:flex; flex-direction:column; gap:0; }
+  .day-item { display:grid; grid-template-columns: 96px 1fr; gap:22px; padding:20px 0; border-top:1px solid var(--line); align-items:start; }
+  .day-item .time { font-family: var(--font-display); font-weight:600; color: var(--primary-ink); }
+  .day-item:last-child { border-bottom:1px solid var(--line); }
+  @media (max-width:620px){ .day-item { grid-template-columns: 70px 1fr; gap:14px; } }
+
+  .gallery { display:grid; grid-template-columns: repeat(4,1fr); grid-auto-rows: 150px; gap:16px; }
+  .gallery .ph:nth-child(1){ grid-column: span 2; grid-row: span 2; }
+  .gallery .ph:nth-child(4){ grid-row: span 2; }
+  @media (max-width:780px){ .gallery { grid-template-columns: repeat(2,1fr); } .gallery .ph:nth-child(1){ grid-column: span 2; } }
+
+  .team-grid { display:grid; grid-template-columns: repeat(4,1fr); gap:22px; }
+  @media (max-width:880px){ .team-grid { grid-template-columns: repeat(2,1fr); } }
+  .team-card { text-align:center; }
+  .team-card .ph { height:0; padding-bottom:100%; border-radius:50%; position:relative; }
+  .team-card .ph::after { position:absolute; }
+
+  .cta-band { position:relative; overflow:hidden; }
+  .cta-card { background: var(--primary); color: var(--on-primary); border-radius: var(--radius-lg); padding: clamp(36px,5vw,64px); text-align:center; position:relative; overflow:hidden; }
+  .cta-card h2, .cta-card p { color: var(--on-primary); }
+  .cta-card .btn-light { background: var(--surface); color: var(--primary-ink); }
+  .cta-card .btn-light:hover { background: var(--base); }
+
+  .footer { background: var(--primary-soft); color: var(--ink); }
+  .footer .wrap { padding: 60px 28px 40px; }
+  .footer .cols { display:grid; grid-template-columns: 1.5fr 1fr 1fr; gap:30px; }
+  @media (max-width:780px){ .footer .cols { grid-template-columns:1fr; } }
+  .footer .word { font-family: var(--font-display); font-weight:600; font-size:1.3rem; color: var(--ink); }
+  .footer a { color: var(--primary-ink); text-decoration:none; }
+  .footer small { color: var(--ink-soft); }
+
+  .lang { display:inline-flex; border:1.5px solid var(--line); border-radius:999px; overflow:hidden; font-family:var(--font-display); font-weight:600; font-size:.8rem; }
+  .lang button { border:none; background:transparent; padding:.3em .8em; cursor:pointer; color:var(--ink-soft); }
+  .lang button.on { background:var(--primary); color:var(--on-primary); }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="wrap">
+    <div class="cluster" style="gap:18px;">
+      <a href="#"><svg class="ic"><use href="#ic-instagram"></use></svg> Instagram</a>
+      <a href="#"><svg class="ic"><use href="#ic-heart"></use></svg> LinkedIn</a>
+    </div>
+    <div class="cluster" style="gap:18px;">
+      <a href="#"><svg class="ic"><use href="#ic-mail"></use></svg> hallo@zwirbelhus.ch</a>
+      <a href="#"><svg class="ic"><use href="#ic-phone"></use></svg> 055 000 00 00</a>
+      <span class="lang"><button class="on" data-lang="de">DE</button><button data-lang="en">EN</button></span>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap">
+    <div class="nav-links">
+      <a href="#kita" data-i="nav_kita">Unsere Kita</a>
+      <a href="#alltag" data-i="nav_day">Kitaalltag</a>
+      <a href="#galerie" data-i="nav_gallery">Galerie</a>
+      <a href="#team" data-i="nav_team">Team</a>
+    </div>
+    <a class="logo" href="#top">
+      <svg class="mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 27 24 15.5 39 27"/>
+        <path d="M13 24.5V38.5a1.6 1.6 0 0 0 1.6 1.6h18.8a1.6 1.6 0 0 0 1.6-1.6V24.5"/>
+        <path d="M20.3 40v-5a3.7 3.7 0 0 1 7.4 0v5"/><path d="M24 16C24 10 27 6 31 6.5 35 7 35.5 12 31 13c-3 .7-4-2.4-2-3.4" stroke="var(--accent)"/>
+      </svg>
+      <span class="word">zwirbel<b>hus</b></span>
+    </a>
+    <div class="cta">
+      <a class="btn btn-primary" href="#kontakt" data-i="nav_cta">Kitaplatz anfragen</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="grid-hero">
+      <div style="position:relative;">
+        <div class="float-heart accent" style="top:-30px; left:-6px; font-size:24px;"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 20s-6.5-4.2-8.4-8.1C2.2 9.1 3.6 6 6.6 6c1.9 0 3 1.2 3.7 2.2.4.6 1 .6 1.4 0C12.4 7.2 13.5 6 15.4 6c3 0 4.4 3.1 3 5.9C16.5 15.8 12 20 12 20Z"/></svg></div>
+        <p class="t-eyebrow" data-i="hero_eyebrow">KITA · SIEBNEN</p>
+        <h1 class="t-hero" style="margin-top:12px;" data-i="hero_title">Wo chind eifach chind sii dörfed.</h1>
+        <p class="lead" style="max-width:48ch; margin-top:18px;" data-i="hero_sub">Härzlich willkomme bi de Zwirbelhus — a centrally located, professionally and lovingly run daycare with bright, high rooms and a warm-hearted team.</p>
+        <div class="cluster" style="margin-top:30px; gap:16px;">
+          <a class="btn btn-primary btn-lg" href="#kontakt" data-i="hero_cta1">Jetzt Kitaplatz anfragen <svg class="ic"><use href="#ic-arrow"></use></svg></a>
+          <a class="btn btn-ghost btn-lg" href="#alltag" data-i="hero_cta2">Unser Alltag</a>
+        </div>
+        <div class="cluster" style="margin-top:30px; gap:10px;">
+          <span class="chip is-primary"><svg class="ic" style="width:1.05em;height:1.05em"><use href="#ic-clock"></use></svg> 06:45 – 18:45</span>
+          <span class="chip"><svg class="ic" style="width:1.05em;height:1.05em"><use href="#ic-leaf"></use></svg> <span data-i="chip_garden">Eigene Garte</span></span>
+          <span class="chip"><svg class="ic" style="width:1.05em;height:1.05em"><use href="#ic-cup"></use></svg> <span data-i="chip_food">Frischi Chuchi</span></span>
+        </div>
+        <!-- dotted squiggle -->
+        <svg class="squiggle" style="bottom:-46px; left:10%; width:280px; height:60px;" viewBox="0 0 280 60" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="1 11"><path d="M6 18 C 60 56, 120 56, 160 30 S 240 4, 274 40"/></svg>
+      </div>
+      <div class="scene">
+        <div class="ph blob" data-label="line illustration · family + children"></div>
+        <div class="float-heart" style="top:8%; right:4%; font-size:30px;"><svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M12 20s-6.5-4.2-8.4-8.1C2.2 9.1 3.6 6 6.6 6c1.9 0 3 1.2 3.7 2.2.4.6 1 .6 1.4 0C12.4 7.2 13.5 6 15.4 6c3 0 4.4 3.1 3 5.9C16.5 15.8 12 20 12 20Z"/></svg></div>
+        <div class="float-heart sun" style="bottom:12%; left:-2%; font-size:20px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 20s-6.5-4.2-8.4-8.1C2.2 9.1 3.6 6 6.6 6c1.9 0 3 1.2 3.7 2.2.4.6 1 .6 1.4 0C12.4 7.2 13.5 6 15.4 6c3 0 4.4 3.1 3 5.9C16.5 15.8 12 20 12 20Z"/></svg></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- STATS BAND -->
+<section class="band-primary">
+  <div class="wrap" style="display:grid; grid-template-columns:repeat(4,1fr); gap:24px; padding:34px 28px;">
+    <div class="stat"><div class="n">12h</div><div class="l" data-i="stat_open">offen pro Tag</div></div>
+    <div class="stat"><div class="n">3–12</div><div class="l" data-i="stat_age">Monate bis Jahre</div></div>
+    <div class="stat"><div class="n">1:4</div><div class="l" data-i="stat_ratio">Betreuungsschlüssel</div></div>
+    <div class="stat"><div class="n">100%</div><div class="l" data-i="stat_love">mit Härz</div></div>
+  </div>
+</section>
+
+<!-- UNSERE KITA -->
+<section class="section" id="kita">
+  <div class="wrap">
+    <div class="grid grid-2" style="align-items:center; gap:48px;">
+      <div class="ph" data-label="photo · bright play room" style="height:360px;"></div>
+      <div>
+        <span class="num" style="font-family:ui-monospace,monospace; color:var(--accent); font-size:.8rem;">Unseri Kita</span>
+        <h2 class="t-display" style="margin-top:10px;" data-i="kita_title">A second home, full of light.</h2>
+        <p data-i="kita_p1">Die Zwirbelhus ist eine zentral gelegene, professionell und liebevoll geführte Kindertagesstätte. Helle, hohe Räume sind ein wesentliches Thema — thoughtfully planned spaces are an essential building block of valuable pedagogy.</p>
+        <p class="muted" data-i="kita_p2">Our warm-hearted, imaginative team keeps a respectful, transparent relationship with one another, with parents and with the children — so every child feels seen, understood and geborge.</p>
+        <a class="pagelink" href="#alltag" style="font-family:var(--font-display); font-weight:600; color:var(--primary-ink); text-decoration:none; display:inline-flex; gap:.5em; align-items:center; margin-top:6px;" data-i="kita_link">So sieht üse Tag us <svg class="ic"><use href="#ic-arrow"></use></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WERTE / FEATURES -->
+<section class="section band" id="werte">
+  <div class="wrap">
+    <div style="max-width:660px; margin-bottom:40px;">
+      <p class="t-eyebrow" data-i="values_eyebrow">Üsi Wärt · Our values</p>
+      <h2 class="t-display" style="margin-top:8px;" data-i="values_title">Room to be little.</h2>
+    </div>
+    <div class="grid grid-3">
+      <div class="card card-feature">
+        <div class="ic-badge"><svg class="ic"><use href="#ic-puzzle"></use></svg></div>
+        <h3 class="t-head" data-i="val1_t">Freies Spiel</h3>
+        <p class="muted" style="margin:0;" data-i="val1_p">Time and space to explore, build and imagine at their own pace.</p>
+      </div>
+      <div class="card card-feature">
+        <div class="ic-badge accent"><svg class="ic"><use href="#ic-leaf"></use></svg></div>
+        <h3 class="t-head" data-i="val2_t">Draussen sii</h3>
+        <p class="muted" style="margin:0;" data-i="val2_p">Daily fresh air in our garden and the nearby woods, in any weather.</p>
+      </div>
+      <div class="card card-feature">
+        <div class="ic-badge sun"><svg class="ic"><use href="#ic-cup"></use></svg></div>
+        <h3 class="t-head" data-i="val3_t">Frischi Chuchi</h3>
+        <p class="muted" style="margin:0;" data-i="val3_p">Fresh, balanced Znüni and Zmittag, cooked with love in our own kitchen.</p>
+      </div>
+      <div class="card card-feature">
+        <div class="ic-badge"><svg class="ic"><use href="#ic-book"></use></svg></div>
+        <h3 class="t-head" data-i="val4_t">Gschichte &amp; Musig</h3>
+        <p class="muted" style="margin:0;" data-i="val4_p">Songs, stories and singing weave through every part of the day.</p>
+      </div>
+      <div class="card card-feature">
+        <div class="ic-badge accent"><svg class="ic"><use href="#ic-heart"></use></svg></div>
+        <h3 class="t-head" data-i="val5_t">Geborgeheit</h3>
+        <p class="muted" style="margin:0;" data-i="val5_p">Reliable, loving caregivers and a calm rhythm children can trust.</p>
+      </div>
+      <div class="card card-feature">
+        <div class="ic-badge sun"><svg class="ic"><use href="#ic-star"></use></svg></div>
+        <h3 class="t-head" data-i="val6_t">Mitenand</h3>
+        <p class="muted" style="margin:0;" data-i="val6_p">Friendships, sharing and small everyday kindnesses, gently encouraged.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KITAALLTAG / DAY -->
+<section class="section" id="alltag">
+  <div class="wrap">
+    <div class="grid grid-2" style="gap:48px; align-items:start;">
+      <div>
+        <p class="t-eyebrow" data-i="day_eyebrow">Kitaalltag · A day with us</p>
+        <h2 class="t-display" style="margin:8px 0 14px;" data-i="day_title">A gentle, predictable rhythm.</h2>
+        <p class="muted" data-i="day_sub">Familiar anchors through the day give children security — and plenty of room in between for free play and discovery.</p>
+        <a class="btn btn-soft" href="#kontakt" style="margin-top:18px;" data-i="day_cta"><svg class="ic"><use href="#ic-sparkle"></use></svg> Schnuppertag buchen</a>
+      </div>
+      <div class="day-list">
+        <div class="day-item"><span class="time">06:45</span><div><h3 class="t-head" style="margin:0 0 .15em;" data-i="d1_t">Ankoo &amp; Znüni</h3><p class="muted" style="margin:0;" data-i="d1_p">Arriving softly, a warm welcome and a shared morning snack.</p></div></div>
+        <div class="day-item"><span class="time">09:00</span><div><h3 class="t-head" style="margin:0 0 .15em;" data-i="d2_t">Freies Spiel</h3><p class="muted" style="margin:0;" data-i="d2_p">Open play, projects, painting and building in our bright rooms.</p></div></div>
+        <div class="day-item"><span class="time">11:30</span><div><h3 class="t-head" style="margin:0 0 .15em;" data-i="d3_t">Zmittag</h3><p class="muted" style="margin:0;" data-i="d3_p">A fresh, balanced lunch together at the table.</p></div></div>
+        <div class="day-item"><span class="time">12:30</span><div><h3 class="t-head" style="margin:0 0 .15em;" data-i="d4_t">Mittagsrueh</h3><p class="muted" style="margin:0;" data-i="d4_p">Quiet time and naps — rest at each child's own pace.</p></div></div>
+        <div class="day-item"><span class="time">15:00</span><div><h3 class="t-head" style="margin:0 0 .15em;" data-i="d5_t">Usegoh</h3><p class="muted" style="margin:0;" data-i="d5_p">Out to the garden or the woods for fresh air and adventure.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIE -->
+<section class="section band" id="galerie">
+  <div class="wrap">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px; margin-bottom:34px;">
+      <div>
+        <p class="t-eyebrow" data-i="gallery_eyebrow">Galerie</p>
+        <h2 class="t-display" style="margin-top:8px;" data-i="gallery_title">Momänt us em Alltag</h2>
+      </div>
+      <a class="pagelink" href="#" style="font-family:var(--font-display); font-weight:600; color:var(--primary-ink); text-decoration:none; display:inline-flex; gap:.5em; align-items:center;" data-i="gallery_link">Alli Bilder <svg class="ic"><use href="#ic-arrow"></use></svg></a>
+    </div>
+    <div class="gallery">
+      <div class="ph" data-label="photo · play"></div>
+      <div class="ph accent" data-label="photo · garden"></div>
+      <div class="ph" data-label="photo · craft"></div>
+      <div class="ph accent" data-label="photo · woods"></div>
+      <div class="ph" data-label="photo · lunch"></div>
+      <div class="ph" data-label="photo · reading"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="section" id="team">
+  <div class="wrap">
+    <div style="max-width:640px; margin-bottom:38px;">
+      <p class="t-eyebrow" data-i="team_eyebrow">Üses Team</p>
+      <h2 class="t-display" style="margin-top:8px;" data-i="team_title">Warm-hearted &amp; full of ideas.</h2>
+      <p class="muted" data-i="team_sub">A professional, caring team that loves what it does — and it shows in the everyday.</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card"><div class="ph blob" data-label="portrait"></div><h3 class="t-head" style="margin:14px 0 0;">Anna</h3><p class="muted" style="margin:0; font-size:.92rem;" data-i="role1">Kita-Leitung</p></div>
+      <div class="team-card"><div class="ph blob" data-label="portrait"></div><h3 class="t-head" style="margin:14px 0 0;">Mira</h3><p class="muted" style="margin:0; font-size:.92rem;" data-i="role2">Gruppenleitung</p></div>
+      <div class="team-card"><div class="ph blob" data-label="portrait"></div><h3 class="t-head" style="margin:14px 0 0;">Jonas</h3><p class="muted" style="margin:0; font-size:.92rem;" data-i="role3">Fachperson Betreuung</p></div>
+      <div class="team-card"><div class="ph blob" data-label="portrait"></div><h3 class="t-head" style="margin:14px 0 0;">Lea</h3><p class="muted" style="margin:0; font-size:.92rem;" data-i="role4">Lernende</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section cta-band band-primary" id="kontakt">
+  <div class="wrap">
+    <div class="cta-card">
+      <div class="float-heart" style="top:18px; left:8%; font-size:26px; color:color-mix(in oklab, var(--on-primary) 60%, transparent);"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M12 20s-6.5-4.2-8.4-8.1C2.2 9.1 3.6 6 6.6 6c1.9 0 3 1.2 3.7 2.2.4.6 1 .6 1.4 0C12.4 7.2 13.5 6 15.4 6c3 0 4.4 3.1 3 5.9C16.5 15.8 12 20 12 20Z"/></svg></div>
+      <div class="float-heart" style="bottom:20px; right:10%; font-size:18px; color:color-mix(in oklab, var(--on-primary) 50%, transparent);"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 20s-6.5-4.2-8.4-8.1C2.2 9.1 3.6 6 6.6 6c1.9 0 3 1.2 3.7 2.2.4.6 1 .6 1.4 0C12.4 7.2 13.5 6 15.4 6c3 0 4.4 3.1 3 5.9C16.5 15.8 12 20 12 20Z"/></svg></div>
+      <p class="t-eyebrow" style="color:color-mix(in oklab, var(--on-primary) 85%, transparent);" data-i="cta_eyebrow">Möchtet Sie Ihr Chind aamälde?</p>
+      <h2 class="t-display" style="max-width:18ch; margin:10px auto 12px;" data-i="cta_title">Let's find a place for your child.</h2>
+      <p style="max-width:50ch; margin:0 auto 26px; opacity:.92;" data-i="cta_sub">Write to us or call — we'll gladly show you around and answer every question.</p>
+      <div class="cluster" style="justify-content:center; gap:14px;">
+        <a class="btn btn-light btn-lg" href="#"><svg class="ic"><use href="#ic-mail"></use></svg> hallo@zwirbelhus.ch</a>
+        <a class="btn btn-ghost btn-lg" href="#" style="border-color:color-mix(in oklab, var(--on-primary) 50%, transparent); color:var(--on-primary);"><svg class="ic"><use href="#ic-phone"></use></svg> 055 000 00 00</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <div class="cluster" style="gap:10px; margin-bottom:14px;">
+          <svg width="42" height="42" viewBox="0 0 48 48" fill="none" stroke="var(--primary)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 27 24 15.5 39 27"/><path d="M13 24.5V38.5a1.6 1.6 0 0 0 1.6 1.6h18.8a1.6 1.6 0 0 0 1.6-1.6V24.5"/>
+            <path d="M20.3 40v-5a3.7 3.7 0 0 1 7.4 0v5"/><path d="M24 16C24 10 27 6 31 6.5 35 7 35.5 12 31 13c-3 .7-4-2.4-2-3.4" stroke="var(--accent)"/>
+          </svg>
+          <span class="word">zwirbelhus</span>
+        </div>
+        <p class="muted" style="max-width:34ch;" data-i="foot_tag">Wo chind eifach chind sii dörfed — a warm, professionally and lovingly run Kita in Siebnen.</p>
+      </div>
+      <div>
+        <p class="t-eyebrow" style="margin-bottom:10px;" data-i="foot_hours">Öffnungszeiten</p>
+        <p class="muted" style="margin:0;">Mo – Fr · 06:45 – 18:45<br>Sa &amp; So · <span data-i="foot_closed">geschlossen</span></p>
+      </div>
+      <div>
+        <p class="t-eyebrow" style="margin-bottom:10px;" data-i="foot_contact">Kontakt</p>
+        <p class="muted" style="margin:0;"><a href="#">hallo@zwirbelhus.ch</a><br>055 000 00 00<br>8854 Siebnen</p>
+      </div>
+    </div>
+    <div style="margin-top:34px; padding-top:18px; border-top:1px solid var(--line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+      <small>© 2026 Zwirbelhus · Siebnen</small>
+      <a class="pagelink" href="Zwirbelhus Design System.html" style="font-family:var(--font-display); font-weight:600; color:var(--primary-ink); text-decoration:none; display:inline-flex; gap:.5em; align-items:center;">View the design system <svg class="ic"><use href="#ic-arrow"></use></svg></a>
+    </div>
+  </div>
+</footer>
+
+<script src="icons.js"></script>
+<!-- DE / EN copy -->
+<script>
+const EN = {
+  nav_kita:'Our Kita', nav_day:'A day', nav_gallery:'Gallery', nav_team:'Team', nav_cta:'Request a place',
+  hero_eyebrow:'Daycare · Siebnen', hero_title:'Where kids get to just be kids.',
+  hero_sub:'A warm welcome to Zwirbelhus — a centrally located, professionally and lovingly run daycare with bright, high rooms and a warm-hearted team.',
+  hero_cta1:'Request a place', hero_cta2:'Our daily life', chip_garden:'Own garden', chip_food:'Fresh kitchen',
+  stat_open:'open per day', stat_age:'months to years', stat_ratio:'carer ratio', stat_love:'made with heart',
+  kita_title:'A second home, full of light.',
+  kita_p1:'Zwirbelhus is a centrally located, professionally and lovingly run daycare. Bright, high rooms are a core theme — thoughtfully planned spaces are an essential building block of valuable pedagogy.',
+  kita_p2:'Our warm-hearted, imaginative team keeps a respectful, transparent relationship with one another, with parents and with the children — so every child feels seen, understood and secure.',
+  kita_link:'See how our day flows',
+  values_eyebrow:'Our values', values_title:'Room to be little.',
+  val1_t:'Free play', val1_p:'Time and space to explore, build and imagine at their own pace.',
+  val2_t:'Being outside', val2_p:'Daily fresh air in our garden and the nearby woods, in any weather.',
+  val3_t:'Fresh kitchen', val3_p:'Fresh, balanced snacks and lunch, cooked with love in our own kitchen.',
+  val4_t:'Stories & music', val4_p:'Songs, stories and singing weave through every part of the day.',
+  val5_t:'Security', val5_p:'Reliable, loving caregivers and a calm rhythm children can trust.',
+  val6_t:'Togetherness', val6_p:'Friendships, sharing and small everyday kindnesses, gently encouraged.',
+  day_eyebrow:'A day with us', day_title:'A gentle, predictable rhythm.',
+  day_sub:'Familiar anchors through the day give children security — and plenty of room in between for free play and discovery.',
+  day_cta:'Book a trial day',
+  d1_t:'Arrival & snack', d1_p:'Arriving softly, a warm welcome and a shared morning snack.',
+  d2_t:'Free play', d2_p:'Open play, projects, painting and building in our bright rooms.',
+  d3_t:'Lunch', d3_p:'A fresh, balanced lunch together at the table.',
+  d4_t:'Rest time', d4_p:'Quiet time and naps — rest at each child\u2019s own pace.',
+  d5_t:'Heading out', d5_p:'Out to the garden or the woods for fresh air and adventure.',
+  gallery_eyebrow:'Gallery', gallery_title:'Moments from our days', gallery_link:'All photos',
+  team_eyebrow:'Our team', team_title:'Warm-hearted & full of ideas.',
+  team_sub:'A professional, caring team that loves what it does — and it shows in the everyday.',
+  role1:'Kita director', role2:'Group lead', role3:'Childcare specialist', role4:'Apprentice',
+  cta_eyebrow:'Would you like to enrol your child?', cta_title:'Let\u2019s find a place for your child.',
+  cta_sub:'Write to us or call — we\u2019ll gladly show you around and answer every question.',
+  foot_tag:'Where kids get to just be kids — a warm, professionally and lovingly run Kita in Siebnen.',
+  foot_hours:'Opening hours', foot_closed:'closed', foot_contact:'Contact'
+};
+const DE = {}; document.querySelectorAll('[data-i]').forEach(el=>{ DE[el.dataset.i] = el.innerHTML; });
+function setLang(l){
+  const map = l==='en' ? EN : DE;
+  document.querySelectorAll('[data-i]').forEach(el=>{ if(map[el.dataset.i]!=null) el.innerHTML = map[el.dataset.i]; });
+  document.documentElement.lang = l==='en' ? 'en' : 'de';
+  document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on', b.dataset.lang===l));
+}
+document.querySelectorAll('.lang button').forEach(b=> b.addEventListener('click', ()=> setLang(b.dataset.lang)) );
+</script>
+
+<!-- TWEAKS -->
+<div id="tweak-root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+const LP_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "direction": "Sonne",
+  "radius": "round",
+  "hearts": true
+}/*EDITMODE-END*/;
+const DIR_MAP = { 'Himmel':'himmel', 'Wolke':'wolke', 'Sonne':'sonne' };
+function LandingTweaks(){
+  const [t, setTweak] = useTweaks(LP_DEFAULTS);
+  React.useEffect(()=>{ document.documentElement.dataset.theme = DIR_MAP[t.direction]||'himmel'; }, [t.direction]);
+  React.useEffect(()=>{
+    const r = { soft:1, round:1.5, sharp:0.45 }[t.radius]||1;
+    document.documentElement.style.setProperty('--radius-lg', (28*r)+'px');
+    document.documentElement.style.setProperty('--radius-md', (18*r)+'px');
+    document.documentElement.style.setProperty('--radius-sm', (12*r)+'px');
+  }, [t.radius]);
+  React.useEffect(()=>{ document.querySelectorAll('.float-heart, .squiggle').forEach(e=> e.style.display = t.hearts ? '' : 'none'); }, [t.hearts]);
+  return (
+    <TweaksPanel title="Tweaks">
+      <TweakSection label="Direction" />
+      <TweakRadio label="Theme" value={t.direction} options={['Himmel','Wolke','Sonne']} onChange={(v)=>setTweak('direction', v)} />
+      <TweakSection label="Details" />
+      <TweakRadio label="Corners" value={t.radius} options={['sharp','soft','round']} onChange={(v)=>setTweak('radius', v)} />
+      <TweakToggle label="Hand-drawn hearts" value={t.hearts} onChange={(v)=>setTweak('hearts', v)} />
+    </TweaksPanel>
+  );
+}
+ReactDOM.createRoot(document.getElementById('tweak-root')).render(<LandingTweaks />);
+</script>
+</body>
+</html>

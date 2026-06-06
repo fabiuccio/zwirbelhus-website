@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="sonne" style="--radius-lg:42px; --radius-md:27px; --radius-sm:18px;">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Z'Wirbelhus Obermarch — Kinderkrippe in Siebnen</title>
+<link rel="stylesheet" href="theme.css">
+<style>
+  /* ---- top bar + nav (centered logo) ---- */
+  .topbar { background: var(--primary-soft); color: var(--primary-ink); font-size: 0.85rem; font-weight: 600; font-family: var(--font-display); }
+  .topbar .wrap { display:flex; align-items:center; justify-content:space-between; min-height:42px; gap:18px; }
+  .topbar a { color: var(--primary-ink); text-decoration:none; display:inline-flex; align-items:center; gap:.4em; white-space:nowrap; }
+  .topbar .ic { width:1.1em; height:1.1em; }
+  @media (max-width: 600px){ .topbar .cluster:first-child { display:none; } }
+
+  .nav { position: sticky; top:0; z-index:40; background: color-mix(in oklab, var(--base) 90%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .nav .wrap { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; min-height:84px; gap:20px; }
+  .nav-links { display:flex; align-items:center; gap:22px; font-family: var(--font-display); font-weight:500; font-size:.98rem; }
+  .nav-links.right { justify-content:flex-end; }
+  .nav-links a { color: var(--ink); text-decoration:none; transition:color .15s; white-space:nowrap; }
+  .nav-links a:hover { color: var(--primary-ink); }
+  .logo { display:flex; flex-direction:column; align-items:center; gap:2px; text-decoration:none; }
+  .logo .mark { width:48px; height:48px; }
+  .logo .word { font-family: var(--font-display); font-weight:600; font-size:1.4rem; color: var(--ink); line-height:1; }
+  .logo .word b { color: var(--primary-ink); font-weight:600; }
+  @media (max-width: 1040px){ .nav-links { display:none; } .nav .wrap { grid-template-columns:1fr; justify-items:center; } }
+
+  /* mobile menu (simple) */
+  .menu-btn { display:none; }
+  @media (max-width: 1040px){
+    .menu-btn { display:inline-flex; position:absolute; right:20px; top:24px; background:var(--primary-soft); color:var(--primary-ink); border:none; border-radius:999px; width:42px; height:42px; align-items:center; justify-content:center; cursor:pointer; }
+  }
+
+  /* hero */
+  .hero { position: relative; overflow: hidden; padding: clamp(40px,6vw,76px) 0 clamp(52px,7vw,90px); }
+  .hero .grid-hero { display:grid; grid-template-columns: 1.05fr 1fr; gap: 44px; align-items:center; }
+  @media (max-width: 920px){ .hero .grid-hero { grid-template-columns:1fr; } }
+  .hero .scene .ph { height: 420px; }
+  .float-heart svg { display:block; }
+  .squiggle { position:absolute; pointer-events:none; color: var(--accent); }
+
+  .band-primary { background: var(--primary-soft); }
+  .band { background: var(--surface-2); }
+  .stat { text-align:center; }
+  .stat .n { font-family: var(--font-display); font-weight:700; font-size: clamp(2rem,3.6vw,2.8rem); color: var(--primary-ink); line-height:1; }
+  .stat .l { color: var(--ink-soft); font-size:.92rem; margin-top:6px; }
+
+  .day-item { display:grid; grid-template-columns: 96px 1fr; gap:22px; padding:18px 0; border-top:1px solid var(--line); align-items:start; }
+  .day-item .time { font-family: var(--font-display); font-weight:600; color: var(--primary-ink); }
+  .day-item:last-child { border-bottom:1px solid var(--line); }
+  @media (max-width:620px){ .day-item { grid-template-columns: 70px 1fr; gap:14px; } }
+
+  .gallery { display:grid; grid-template-columns: repeat(4,1fr); grid-auto-rows: 150px; gap:16px; }
+  .gallery .ph:nth-child(1){ grid-column: span 2; grid-row: span 2; }
+  .gallery .ph:nth-child(4){ grid-row: span 2; }
+  @media (max-width:780px){ .gallery { grid-template-columns: repeat(2,1fr); } .gallery .ph:nth-child(1){ grid-column: span 2; } }
+
+  .team-grid { display:grid; grid-template-columns: repeat(4,1fr); gap:22px; }
+  @media (max-width:880px){ .team-grid { grid-template-columns: repeat(2,1fr); } }
+  .team-card { text-align:center; }
+  .team-card .ph { height:0; padding-bottom:100%; border-radius:50%; }
+
+  /* document list */
+  .doc-list { display:grid; grid-template-columns: repeat(2,1fr); gap:14px; }
+  @media (max-width:760px){ .doc-list { grid-template-columns:1fr; } }
+  .doc { display:flex; align-items:center; gap:16px; padding:18px 20px; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md); text-decoration:none; color:var(--ink); transition:transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s, border-color .18s; }
+  .doc:hover { transform:translateY(-3px); box-shadow:var(--shadow-card); border-color:var(--primary); }
+  .doc .ic-badge { width:46px; height:46px; flex:none; }
+  .doc .ic-badge .ic { width:22px; height:22px; }
+  .doc .nm { font-family:var(--font-display); font-weight:600; }
+  .doc .mt { font-size:.82rem; color:var(--ink-soft); }
+  .doc .dl { margin-left:auto; color:var(--primary-ink); display:flex; }
+
+  /* tariff cards */
+  .tariff-grid { display:grid; grid-template-columns: repeat(2,1fr); gap:20px; }
+  @media (max-width:760px){ .tariff-grid { grid-template-columns:1fr; } }
+  .tariff { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-lg); padding:28px; }
+  .tariff .price { font-family:var(--font-display); font-weight:700; font-size:2.4rem; color:var(--primary-ink); line-height:1; }
+  .tariff .price small { font-size:1rem; font-weight:600; color:var(--ink-soft); }
+
+  /* events */
+  .event { display:grid; grid-template-columns: 64px 1fr; gap:18px; align-items:center; padding:16px 0; border-top:1px solid var(--line); }
+  .event:last-child { border-bottom:1px solid var(--line); }
+  .event .date { text-align:center; background:var(--primary-soft); border-radius:var(--radius-sm); padding:8px 4px; }
+  .event .date .d { font-family:var(--font-display); font-weight:700; font-size:1.2rem; color:var(--primary-ink); line-height:1; }
+  .event .date .m { font-size:.7rem; text-transform:uppercase; letter-spacing:.08em; color:var(--primary-ink); }
+
+  .cta-card { background: var(--primary); color: var(--on-primary); border-radius: var(--radius-lg); padding: clamp(32px,5vw,56px); position:relative; overflow:hidden; }
+  .cta-card h2, .cta-card p, .cta-card a { color: var(--on-primary); }
+  .info-line { display:flex; align-items:center; gap:12px; margin-bottom:12px; font-size:1.05rem; }
+  .info-line .ic { width:1.3em; height:1.3em; flex:none; opacity:.9; }
+
+  .footer { background: var(--primary-soft); color: var(--ink); }
+  .footer .wrap { padding: 60px 28px 40px; }
+  .footer .cols { display:grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap:30px; }
+  @media (max-width:900px){ .footer .cols { grid-template-columns:1fr 1fr; } }
+  @media (max-width:560px){ .footer .cols { grid-template-columns:1fr; } }
+  .footer .word { font-family: var(--font-display); font-weight:600; font-size:1.3rem; color: var(--ink); }
+  .footer a { color: var(--primary-ink); text-decoration:none; display:block; padding:2px 0; }
+  .footer small { color: var(--ink-soft); }
+
+  .pagelink { font-family: var(--font-display); font-weight:600; color:var(--primary-ink); text-decoration:none; display:inline-flex; gap:.5em; align-items:center; }
+  .pagelink:hover { gap:.8em; }
+  .sec-eyebrow { display:flex; flex-direction:column; gap:8px; max-width:640px; margin-bottom:36px; }
+
+  /* real images inside placeholders */
+  .ph img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
+  .ph.has-img { border-style:solid; border-color:transparent; }
+  .ph.has-img::after { display:none; }
+
+  /* location map */
+  .map-embed { border:0; width:100%; height:100%; min-height:340px; display:block; border-radius:var(--radius-lg); }
+
+  /* "freie Plätze" announcement banner */
+  .freebanner { background: linear-gradient(100deg, var(--sun), var(--accent)); color: var(--on-accent); border-bottom: 1px solid color-mix(in oklab, var(--accent) 60%, var(--line)); position: relative; overflow: hidden; }
+  .freebanner .wrap { display:flex; align-items:center; justify-content:center; gap:12px 20px; flex-wrap:wrap; padding:13px 28px; text-align:center; }
+  .freebanner .msg { display:inline-flex; align-items:center; gap:11px; }
+  .freebanner .dot { width:11px; height:11px; border-radius:50%; background:var(--primary-ink); flex:none; animation:freepulse 1.7s ease-out infinite; }
+  @keyframes freepulse { 0%{ box-shadow:0 0 0 0 color-mix(in oklab,var(--primary-ink) 55%,transparent); } 70%{ box-shadow:0 0 0 12px transparent; } 100%{ box-shadow:0 0 0 0 transparent; } }
+  .freebanner b { font-family:var(--font-display); font-weight:700; font-size:clamp(1.02rem,2vw,1.3rem); }
+  .freebanner .sub { opacity:.92; font-size:.95rem; }
+  .freebanner .btn { white-space:nowrap; }
+  @media (max-width:680px){ .freebanner .sub { display:none; } }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="wrap">
+    <div class="cluster" style="gap:18px;">
+      <a href="https://www.instagram.com/zwirbelhus_siebnen/" target="_blank" rel="noopener"><svg class="ic"><use href="#ic-instagram"></use></svg> @zwirbelhus_siebnen</a>
+    </div>
+    <div class="cluster" style="gap:18px;">
+      <a href="mailto:info@zwirbelhus.ch"><svg class="ic"><use href="#ic-mail"></use></svg> info@zwirbelhus.ch</a>
+      <a href="tel:+41762908053"><svg class="ic"><use href="#ic-phone"></use></svg> 076 290 80 53</a>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap">
+    <div class="nav-links">
+      <a href="#krippe">Unser Z'Wirbelhus</a>
+      <a href="#angebot">Angebot</a>
+      <a href="#alltag">Kitaalltag</a>
+      <a href="#tarife">Tarife</a>
+    </div>
+    <a class="logo" href="#top" aria-label="Z'Wirbelhus Startseite">
+      <svg class="mark" viewBox="0 0 48 48" fill="none" stroke="var(--primary)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 27 24 15.5 39 27"/>
+        <path d="M13 24.5V38.5a1.6 1.6 0 0 0 1.6 1.6h18.8a1.6 1.6 0 0 0 1.6-1.6V24.5"/>
+        <path d="M20.3 40v-5a3.7 3.7 0 0 1 7.4 0v5"/>
+        <path d="M24 16C24 10 27 6 31 6.5 35 7 35.5 12 31 13c-3 .7-4-2.4-2-3.4" stroke="var(--accent)"/>
+      </svg>
+      <span class="word">z'wirbel<b>hus</b></span>
+    </a>
+    <div class="nav-links right">
+      <a href="galerie.html">Galerie</a>
+      <a href="#dokumente">Dokumente</a>
+      <a href="#team">Team</a>
+      <a href="#kontakt" class="btn btn-primary btn-sm" style="color:var(--on-primary);">Kennenlernen</a>
+    </div>
+  </div>
+</nav>
+
+<!-- FREIE PLÄTZE BANNER -->
+<div class="freebanner">
+  <div class="wrap">
+    <span class="msg"><span class="dot"></span><b>Wir haben ab sofort freie Plätze!</b></span>
+    <span class="sub">Gerne zeigen wir Ihnen das Z'Wirbelhus bei einer unverbindlichen Besichtigung.</span>
+    <a class="btn btn-primary btn-sm" href="#kontakt" style="color:var(--on-primary);">Platz anfragen <svg class="ic"><use href="#ic-arrow"></use></svg></a>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="grid-hero">
+      <div style="position:relative;">
+        <div class="float-heart accent" style="top:-26px; left:-4px; font-size:22px;"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 20s-6.5-4.2-8.4-8.1C2.2 9.1 3.6 6 6.6 6c1.9 0 3 1.2 3.7 2.2.4.6 1 .6 1.4 0C12.4 7.2 13.5 6 15.4 6c3 0 4.4 3.1 3 5.9C16.5 15.8 12 20 12 20Z"/></svg></div>
+        <p class="t-eyebrow">Kinderkrippe · Siebnen</p>
+        <h1 class="t-hero" style="margin-top:12px;">Wo chliini Wirbelwinde d'Wält entdecke.</h1>
+        <p class="lead" style="max-width:50ch; margin-top:18px;">Das Z'Wirbelhus ist eine Kinderkrippe in Siebnen. Wir betreuen Kinder ab drei Monaten bis zum Kindergarteneintritt in einem kleinen, familiären und professionellen Umfeld.</p>
+        <div class="cluster" style="margin-top:28px; gap:16px;">
+          <a class="btn btn-primary btn-lg" href="#kontakt">Kitaplatz anfragen <svg class="ic"><use href="#ic-arrow"></use></svg></a>
+          <a class="btn btn-ghost btn-lg" href="#angebot">Unser Angebot</a>
+        </div>
+        <div class="cluster" style="margin-top:28px; gap:10px;">
+          <span class="chip is-primary"><svg class="ic" style="width:1.05em;height:1.05em"><use href="#ic-clock"></use></svg> Mo–Fr 06:30–18:00</span>
+          <span class="chip"><svg class="ic" style="width:1.05em;height:1.05em"><use href="#ic-house"></use></svg> 15 Tagesplätze</span>
+          <span class="chip"><svg class="ic" style="width:1.05em;height:1.05em"><use href="#ic-leaf"></use></svg> Waldtage</span>
+        </div>
+        <svg class="squiggle" style="bottom:-44px; left:10%; width:280px; height:60px;" viewBox="0 0 280 60" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="1 11"><path d="M6 18 C 60 56, 120 56, 160 30 S 240 4, 274 40"/></svg>
+      </div>
+      <div class="scene" style="position:relative;">
+        <div class="ph blob has-img" data-label="Foto · Kinder beim Spielen"><img src="file/2025/01/10/IMG_7749_LR.jpg" alt="Kinder beim Spielen im Z'Wirbelhus" loading="eager"></div>
+        <div class="float-heart" style="top:8%; right:4%; font-size:28px;"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M12 20s-6.5-4.2-8.4-8.1C2.2 9.1 3.6 6 6.6 6c1.9 0 3 1.2 3.7 2.2.4.6 1 .6 1.4 0C12.4 7.2 13.5 6 15.4 6c3 0 4.4 3.1 3 5.9C16.5 15.8 12 20 12 20Z"/></svg></div>
+        <div class="float-heart sun" style="bottom:12%; left:-2%; font-size:18px;"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 20s-6.5-4.2-8.4-8.1C2.2 9.1 3.6 6 6.6 6c1.9 0 3 1.2 3.7 2.2.4.6 1 .6 1.4 0C12.4 7.2 13.5 6 15.4 6c3 0 4.4 3.1 3 5.9C16.5 15.8 12 20 12 20Z"/></svg></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- STATS BAND (confirmed facts only) -->
+<section class="band-primary">
+  <div class="wrap" style="display:grid; grid-template-columns:repeat(4,1fr); gap:24px; padding:32px 28px;">
+    <div class="stat"><div class="n">15</div><div class="l">Tagesplätze</div></div>
+    <div class="stat"><div class="n">ab 3 Mt.</div><div class="l">bis Kindergarten</div></div>
+    <div class="stat"><div class="n">11½ Std.</div><div class="l">täglich geöffnet</div></div>
+    <div class="stat"><div class="n">Mo–Fr</div><div class="l">06:30–18:00 Uhr</div></div>
+  </div>
+</section>
+
+<!-- UNSER Z'WIRBELHUS -->
+<section class="section" id="krippe">
+  <div class="wrap">
+    <div class="grid grid-2" style="align-items:center; gap:48px;">
+      <div class="ph has-img" data-label="Foto · helle Gruppenräume" style="height:360px;"><img src="file/2026/01/14/6.jpg" alt="Helle Gruppenräume im Z'Wirbelhus" loading="lazy"></div>
+      <div>
+        <p class="t-eyebrow" style="color:var(--accent);">Unser Z'Wirbelhus</p>
+        <h2 class="t-display" style="margin-top:10px;">Klein, familiär und professionell.</h2>
+        <p>Das Z'Wirbelhus ist eine Kinderkrippe in Siebnen. Wir betreuen Kinder ab drei Monaten bis zum Kindergarteneintritt in einem kleinen, familiären und professionellen Umfeld.</p>
+        <p class="muted">Das Z'Wirbelhus wird von einem Trägerverein getragen. Die operative Leitung liegt bei einem erfahrenen und qualifizierten Kita-Team.</p>
+        <div class="card card-tint" style="margin-top:20px; display:inline-flex; align-items:center; gap:14px;">
+          <div class="ic-badge"><svg class="ic"><use href="#ic-sparkle"></use></svg></div>
+          <div>
+            <p class="t-eyebrow" style="margin-bottom:2px;">Unser Leitspruch</p>
+            <p class="t-head" style="margin:0;">fröhlich, bunt und professionell.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANGEBOT -->
+<section class="section band" id="angebot">
+  <div class="wrap">
+    <div class="sec-eyebrow">
+      <p class="t-eyebrow" style="color:var(--accent);">Unser Angebot</p>
+      <h2 class="t-display" style="margin:0;">Was wir den Kindern bieten.</h2>
+    </div>
+    <div class="grid grid-3" id="angebotGrid"></div>
+  </div>
+</section>
+
+<!-- KITAALLTAG -->
+<section class="section" id="alltag">
+  <div class="wrap">
+    <div class="grid grid-2" style="gap:48px; align-items:start;">
+      <div>
+        <p class="t-eyebrow" style="color:var(--accent);">Unser Krippenalltag</p>
+        <h2 class="t-display" style="margin:8px 0 14px;">Ein vertrauter Tagesrhythmus.</h2>
+        <p class="muted">Wiederkehrende Fixpunkte geben den Kindern Sicherheit – dazwischen bleibt viel Raum für freies Spiel und eigene Entdeckungen.</p>
+        <a class="btn btn-soft" href="#kontakt" style="margin-top:18px;"><svg class="ic"><use href="#ic-sparkle"></use></svg> Schnuppertag vereinbaren</a>
+      </div>
+      <div id="dayList"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ZEITEN -->
+<section class="section band" id="zeiten">
+  <div class="wrap">
+    <div class="grid grid-2" style="gap:24px; align-items:stretch;">
+      <div class="card">
+        <div class="ic-badge"><svg class="ic"><use href="#ic-clock"></use></svg></div>
+        <h2 class="t-title" style="margin:14px 0 10px;">Unsere Zeiten</h2>
+        <p>Das Z'Wirbelhus ist von Montag bis Freitag von 06:30 bis 18:00 Uhr geöffnet.</p>
+        <div class="cluster" style="gap:10px; margin-top:8px;">
+          <span class="chip is-primary">Bringzeiten 06:30–08:30</span>
+          <span class="chip is-primary">Abholzeiten 16:30–18:00</span>
+        </div>
+      </div>
+      <div class="card card-accent">
+        <div class="ic-badge accent"><svg class="ic"><use href="#ic-moon"></use></svg></div>
+        <h2 class="t-title" style="margin:14px 0 10px; color:var(--on-accent);">Schliesszeiten</h2>
+        <p style="color:var(--on-accent);">Während zwei Wochen im Sommer sowie zwischen Weihnachten und Neujahr bleibt die Krippe geschlossen. An nationalen und kantonalen Feiertagen bleibt das Z'Wirbelhus ebenfalls geschlossen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TARIFE -->
+<section class="section" id="tarife">
+  <div class="wrap">
+    <div class="sec-eyebrow">
+      <p class="t-eyebrow" style="color:var(--accent);">Unsere Tarife</p>
+      <h2 class="t-display" style="margin:0;">Transparente Preise pro Tag.</h2>
+    </div>
+    <div class="tariff-grid" id="tariffGrid"></div>
+    <div class="note" style="margin-top:20px;">
+      <svg class="ic" style="width:24px;"><use href="#ic-heart"></use></svg>
+      <div>
+        <strong>Geschwisterrabatt.</strong> Für jedes weitere Kind aus derselben Familie gilt ab dem 19. Lebensmonat eine Ermässigung von 10%.
+      </div>
+    </div>
+    <div class="card card-tint" style="margin-top:16px; display:flex; gap:14px; align-items:flex-start;">
+      <div class="ic-badge" style="flex:none;"><svg class="ic"><use href="#ic-pin"></use></svg></div>
+      <p style="margin:0;">Im Kanton Schwyz werden seit dem 1. August 2024 bis zu einem massgebenden Einkommen von CHF 153'215.– Elternbeiträge an die familienergänzende Kinderbetreuung entrichtet. Bei uns betragen die maximalen, einkommensabhängigen Elternbeiträge CHF 105.– (Kinder bis 18 Monate) bzw. CHF 95.– (Kinder ab 18 Monate). Den Beitragsrechner sowie die rechtlichen Grundlagen finden Sie beim <a href="https://www.sz.ch/verwaltung/departement-des-innern/amt-fuer-gesundheit-und-soziales/soziales/familien.html/8756-8758-8802-9316-9317-9676-9689" target="_blank" rel="noopener">Kanton Schwyz</a>. Für weitere Informationen wenden Sie sich bitte an Ihre Einwohnergemeinde.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DOKUMENTE -->
+<section class="section band" id="dokumente">
+  <div class="wrap">
+    <div class="sec-eyebrow">
+      <p class="t-eyebrow" style="color:var(--accent);">Unsere Dokumente</p>
+      <h2 class="t-display" style="margin:0;">Zum Nachlesen &amp; Herunterladen.</h2>
+    </div>
+    <div class="doc-list" id="docList"></div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="section" id="team">
+  <div class="wrap">
+    <div class="sec-eyebrow">
+      <p class="t-eyebrow" style="color:var(--accent);">Unser Team</p>
+      <h2 class="t-display" style="margin:0;">Erfahren, qualifiziert, herzlich.</h2>
+      <p class="muted" style="margin:0;">Ein professionelles Kita-Team führt das Z'Wirbelhus im Alltag – getragen vom Vorstand des Trägervereins.</p>
+    </div>
+    <div class="team-grid" id="teamGrid"></div>
+  </div>
+</section>
+
+<!-- GALERIE -->
+<section class="section band" id="galerie">
+  <div class="wrap">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px; margin-bottom:32px;">
+      <div class="sec-eyebrow" style="margin-bottom:0;">
+        <p class="t-eyebrow" style="color:var(--accent);">Galerie</p>
+        <h2 class="t-display" style="margin:0;">Einblicke in unseren Alltag.</h2>
+      </div>
+      <a class="pagelink" href="galerie.html">Alle Fotos <svg class="ic"><use href="#ic-arrow"></use></svg></a>
+    </div>
+    <div class="gallery" id="galleryGrid"></div>
+  </div>
+</section>
+
+<!-- AGENDA / NEWS -->
+<section class="section" id="agenda">
+  <div class="wrap">
+    <div class="grid grid-2" style="gap:48px; align-items:start;">
+      <div>
+        <p class="t-eyebrow" style="color:var(--accent);">Agenda &amp; News</p>
+        <h2 class="t-display" style="margin:8px 0 14px;">Was bei uns läuft.</h2>
+        <p class="muted">Ausflüge, Wald- und Projektwochen und Anlässe begleiten uns durch das ganze Jahr. Das vollständige Jahresprogramm finden Sie bei den Dokumenten.</p>
+        <a class="btn btn-soft" href="repository/Jahresprogramm_Eltern_2026.pdf" target="_blank" rel="noopener" style="margin-top:16px;"><svg class="ic"><use href="#ic-book"></use></svg> Jahresprogramm 2026 ansehen</a>
+      </div>
+      <div id="eventList"></div>
+    </div>
+  </div>
+</section>
+
+<!-- STANDORT -->
+<section class="section band" id="standort">
+  <div class="wrap">
+    <div class="grid grid-2" style="gap:30px; align-items:stretch;">
+      <div>
+        <p class="t-eyebrow" style="color:var(--accent);">Unser Standort</p>
+        <h2 class="t-display" style="margin:8px 0 14px;">Mitten in Siebnen.</h2>
+        <p>Das Z'Wirbelhus befindet sich an der Fabrikstrasse 8 in 8854 Siebnen (SZ) – in einem ruhigen Quartier mit Spielplatz und Wald in der Nähe.</p>
+        <div style="margin-top:18px;">
+          <div class="info-line" style="color:var(--ink);"><svg class="ic" style="color:var(--primary-ink);"><use href="#ic-pin"></use></svg> Fabrikstrasse 8, 8854 Siebnen</div>
+        </div>
+        <a class="btn btn-soft" style="margin-top:16px;" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Fabrikstrasse+8+8854+Siebnen"><svg class="ic"><use href="#ic-pin"></use></svg> Route planen</a>
+      </div>
+      <div class="card" style="padding:8px;">
+        <iframe class="map-embed" title="Karte – Z'Wirbelhus, Fabrikstrasse 8, 8854 Siebnen" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Fabrikstrasse%208,%208854%20Siebnen&output=embed"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPENDER -->
+<section class="section" id="spender">
+  <div class="wrap">
+    <div class="cta-card" style="text-align:center;">
+      <div class="ic-badge accent" style="margin:0 auto 14px;"><svg class="ic"><use href="#ic-heart"></use></svg></div>
+      <p class="t-eyebrow" style="color:color-mix(in oklab, var(--on-primary) 85%, transparent);">Unsere Spender</p>
+      <h2 class="t-display" style="margin:10px auto 14px;">Gemeinsam machen wir es bunter.</h2>
+      <p style="opacity:.92; max-width:56ch; margin:0 auto;">Unsere Kinderkrippe lebt von Menschen, die sich mit viel Herzblut engagieren. Mit Ihrer Spende machen Sie das Z'Wirbelhus noch ein Stückchen bunter. Vielen Dank!</p>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAKT -->
+<section class="section band-primary" id="kontakt">
+  <div class="wrap">
+    <div class="grid grid-2" style="gap:30px; align-items:stretch;">
+      <div class="cta-card">
+        <p class="t-eyebrow" style="color:color-mix(in oklab, var(--on-primary) 85%, transparent);">Kontakt</p>
+        <h2 class="t-display" style="margin:10px 0 14px;">Lernen Sie uns kennen.</h2>
+        <p style="opacity:.92; max-width:42ch;">Möchten Sie das Z'Wirbelhus kennenlernen? Gerne laden wir Sie zu einem unverbindlichen Besuch ein.</p>
+        <div style="margin-top:24px;">
+          <div class="info-line"><svg class="ic"><use href="#ic-house"></use></svg> Z'Wirbelhus Obermarch</div>
+          <div class="info-line"><svg class="ic"><use href="#ic-pin"></use></svg> Fabrikstrasse 8, 8854 Siebnen</div>
+          <div class="info-line"><svg class="ic"><use href="#ic-phone"></use></svg> <a href="tel:+41762908053">076 290 80 53</a></div>
+          <div class="info-line"><svg class="ic"><use href="#ic-mail"></use></svg> <a href="mailto:info@zwirbelhus.ch">info@zwirbelhus.ch</a></div>
+        </div>
+      </div>
+      <!-- Kontaktformular — sendet via FormSubmit (https://formsubmit.co) direkt an info@zwirbelhus.ch.
+           Kein Backend nötig. Beim allerersten Versand schickt FormSubmit eine einmalige
+           Bestätigungs-E-Mail an info@zwirbelhus.ch – Link darin anklicken, dann ist das Formular aktiv. -->
+      <form class="card" id="contactForm">
+        <h3 class="t-head" style="margin-bottom:16px;">Schreiben Sie uns</h3>
+        <div class="field"><label for="cf-name">Name</label><input class="input" id="cf-name" name="name" placeholder="Ihr Name" required></div>
+        <div class="field"><label for="cf-mail">E-Mail</label><input class="input" id="cf-mail" name="email" type="email" placeholder="ihre@email.ch" required></div>
+        <div class="field"><label for="cf-tel">Telefon</label><input class="input" id="cf-tel" name="tel" placeholder="076 000 00 00"></div>
+        <div class="field"><label for="cf-msg">Bemerkungen</label><textarea class="textarea" id="cf-msg" name="message" placeholder="Ihre Nachricht an uns…"></textarea></div>
+        <button class="btn btn-primary btn-lg" id="cf-btn" type="submit" style="width:100%; justify-content:center;">Nachricht senden <svg class="ic"><use href="#ic-arrow"></use></svg></button>
+        <p class="muted" id="cf-note" style="font-size:.82rem; margin:12px 0 0; text-align:center;">Ihre Anfrage wird direkt an info@zwirbelhus.ch gesendet. Wir melden uns gerne bei Ihnen.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <div class="cluster" style="gap:10px; margin-bottom:14px;">
+          <svg width="42" height="42" viewBox="0 0 48 48" fill="none" stroke="var(--primary)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 27 24 15.5 39 27"/><path d="M13 24.5V38.5a1.6 1.6 0 0 0 1.6 1.6h18.8a1.6 1.6 0 0 0 1.6-1.6V24.5"/><path d="M20.3 40v-5a3.7 3.7 0 0 1 7.4 0v5"/><path d="M24 16C24 10 27 6 31 6.5 35 7 35.5 12 31 13c-3 .7-4-2.4-2-3.4" stroke="var(--accent)"/>
+          </svg>
+          <span class="word">z'wirbelhus</span>
+        </div>
+        <p class="muted" style="max-width:32ch;">Kinderkrippe in Siebnen – fröhlich, bunt und professionell.</p>
+      </div>
+      <div>
+        <p class="t-eyebrow" style="margin-bottom:10px;">Seiten</p>
+        <a href="#krippe">Unser Z'Wirbelhus</a>
+        <a href="#angebot">Angebot</a>
+        <a href="#tarife">Tarife</a>
+        <a href="#dokumente">Dokumente</a>
+        <a href="galerie.html">Galerie</a>
+        <a href="#standort">Standort</a>
+        <a href="#kontakt">Kontakt</a>
+      </div>
+      <div>
+        <p class="t-eyebrow" style="margin-bottom:10px;">Zeiten</p>
+        <p class="muted" style="margin:0;">Mo–Fr · 06:30–18:00<br>Bringen 06:30–08:30<br>Abholen 16:30–18:00</p>
+      </div>
+      <div>
+        <p class="t-eyebrow" style="margin-bottom:10px;">Kontakt</p>
+        <p class="muted" style="margin:0;">Z'Wirbelhus Obermarch<br>Fabrikstrasse 8<br>8854 Siebnen<br><a href="tel:+41762908053" style="display:inline;">076 290 80 53</a><br><a href="mailto:info@zwirbelhus.ch" style="display:inline;">info@zwirbelhus.ch</a></p>
+        <a href="https://www.kigaroo.ch/" target="_blank" rel="noopener" class="btn btn-soft btn-sm" style="margin-top:14px;"><svg class="ic"><use href="#ic-arrow"></use></svg> Kigaroo Login</a>
+      </div>
+    </div>
+    <div style="margin-top:34px; padding-top:18px; border-top:1px solid var(--line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+      <small>© 2026 Z'Wirbelhus Obermarch · Siebnen</small>
+    </div>
+  </div>
+</footer>
+
+<script src="icons.js"></script>
+
+<!-- ============================================================
+     MVP-Inhalte als Datenstrukturen — später leicht in ein CMS /
+     JSON / Markdown oder eine kleine Admin-DB (z.B. Supabase) zu
+     migrieren. Texte/Links hier zentral pflegen.
+     ============================================================ -->
+<script>
+const CONTENT = {
+  offers: [
+    { icon:'house',  title:'15 Tagesplätze', text:'Familienergänzende Kinderbetreuung mit 15 Tagesplätzen.' },
+    { icon:'smile',  title:'Altersgemischte Gruppe', text:'Eine Kindergruppe ab 3 Monaten bis zum Kindergarteneintritt.' },
+    { icon:'heart',  title:'Familiäres Umfeld', text:'Professionelle Betreuung in kleinem, familiärem Rahmen.' },
+    { icon:'cup',    title:'Eigene Küche', text:'Frische, gesunde und abwechslungsreiche Ernährung aus der eigenen Küche.' },
+    { icon:'leaf',   title:'Wald & Projekte', text:'Regelmässige Waldbesuche, Waldwochen und Projektwochen zu verschiedenen Themen.' },
+    { icon:'sun',    title:'Ausflüge', text:'Ausflüge über das ganze Jahr verteilt.' },
+    { icon:'star',   title:'Tägliche Aktivitäten', text:'Abwechslungsreiche Aktivitäten im Tagesablauf.' },
+    { icon:'clock',  title:'Flexibel', text:'Möglichkeit, den Betreuungstag in der selben Woche zu wechseln.' },
+    { icon:'book',   title:'Zusammenarbeit', text:'Enge und vertrauensvolle Zusammenarbeit mit den Eltern.' },
+  ],
+  day: [
+    { time:'06:30', title:'Türöffnung & Freispiel', text:'Sanftes Ankommen und freies Spiel. Bringzeit bis 08:30 Uhr.' },
+    { time:'08:30', title:'Morgenritual', text:'Wir starten den Tag mit unserem gemeinsamen Morgenritual.' },
+    { time:'08:45', title:'Znüni', text:'Gemeinsames Znüni in der Gruppe.' },
+    { time:'09:30', title:'Wickelzeit & Singkreis', text:'Wickelzeit, Singkreis und Tagesbesprechung.' },
+    { time:'10:00', title:'Aktivitäten & Freispiel', text:'Malen, basteln, singen, spielen, Spaziergänge, Spielplatz oder geführte Aktivitäten.' },
+    { time:'11:45', title:'Mittagessen', text:'Frisch zubereitetes Mittagessen, das zum Teil mit den Kindern gekocht wird.' },
+    { time:'12:30', title:'Mittagsschlaf & Mittagsruhe', text:'Schlafen oder ruhen – nicht schlafende Kinder schauen Bücher an oder hören Geschichten.' },
+    { time:'14:00', title:'Aktivitäten & Freispiel', text:'Spielerische Förderung: malen, basteln, singen, draussen sein oder geführte Aktivitäten.' },
+    { time:'15:30', title:'Zvieri', text:'Zvieri – je nach Wetter auch draussen.' },
+    { time:'16:30', title:'Abholzeit', text:'Wickelzeit und Freispiel, die Kinder werden abgeholt. Krippe schliesst um 18:00 Uhr.' },
+  ],
+  tariffs: [
+    { name:'Babytarif', range:'3–18 Monate · 06:30–18:00, ganzer Tag', price:'145', unit:'CHF / Tag', tint:false },
+    { name:'Kindertarif', range:'19 Monate bis Kindergarteneintritt · ganzer Tag', price:'135', unit:'CHF / Tag', tint:true },
+  ],
+  documents: [
+    { name:'Betriebsreglement', meta:'PDF', href:'repository/Betriebsregelment.pdf' },
+    { name:'Betriebskonzept', meta:'PDF', href:'repository/Betriebskonzept_3.pdf' },
+    { name:'Pädagogisches Konzept', meta:'PDF', href:'repository/Padagogisches_Konzept_2025_1.pdf' },
+    { name:'Statuten', meta:'DOCX', href:'repository/2018_Statuten.docx' },
+    { name:'Datenschutzerklärung', meta:'DOCX', href:'repository/Datenschutzerklarung.docx' },
+    { name:'Jahresprogramm 2026', meta:'PDF', href:'repository/Jahresprogramm_Eltern_2026.pdf' },
+  ],
+  team: [
+    { name:'Gabriela Waser', role:'Krippenleiterin & Berufsbildnerin', img:'file/2025/11/18/IMG_0240_1_1.jpeg' },
+    { name:'Nicole Lienert', role:'Pädagogisch ausgebildete Mitarbeiterin', img:'file/2025/05/28/IMG_0017_1.jpeg' },
+    { name:'Julia Diethelm', role:'Pädagogisch ausgebildete Mitarbeiterin', img:'file/2025/01/28/Homepage_JD.jpg' },
+    { name:'Corinne Schoch', role:'Pädagogisch ausgebildete Mitarbeiterin', img:'file/2025/01/28/Homepage_CS_4.jpg' },
+    { name:'Vanessa Vogt', role:'Auszubildende im ersten Lehrjahr', img:'file/2025/10/30/IMG_4642_1_2.jpeg' },
+    { name:'Fränzi Hegner', role:'Pädagogisch qualifizierte Springerin', img:'file/2025/01/28/Homepage_FH_3.jpg' },
+    { name:'Jasmin Ziegler', role:'Pädagogisch qualifizierte Springerin', img:'file/2025/06/02/IMG_0030.jpeg' },
+    { name:'Lisa Lichtsteiner', role:'Pädagogisch qualifizierte Springerin', img:'file/2025/05/28/IMG_0022_1.jpeg' },
+  ],
+  // Aus dem Jahresprogramm 2026 (Familien-Anlässe) — keine erfundenen Termine.
+  events: [
+    { d:'28', m:'Mär', title:'Papi-Morgen', text:'Für Papis, die Zeit und Lust haben.' },
+    { d:'14', m:'Apr', title:'Mitgliederversammlung', text:'Um 20:00 Uhr.' },
+    { d:'26', m:'Jun', title:'Krippenschlafen', text:'Für Kinder ab 3 Jahren.' },
+    { d:'27', m:'Jun', title:'Brunch', text:'Für alle Eltern und Kinder.' },
+    { d:'20', m:'Jul', title:'Sommer-Betriebsferien', text:'20.07.–02.08. – Krippe geschlossen.' },
+    { d:'28', m:'Sep', title:'Siebner-Märt', text:'28./29.09. – Krippe normal geöffnet.' },
+    { d:'04', m:'Nov', title:'Laternenumzug', text:'Für alle Eltern und Kinder.' },
+  ],
+  gallery: [
+    { img:'file/2022/06/29/IMG_0678_1.JPG', alt:'Kinder im Z\'Wirbelhus' },
+    { img:'file/2022/06/29/20210610_151939_1.jpg', alt:'Draussen spielen', accent:true },
+    { img:'file/2022/06/29/IMG_0421_1.JPG', alt:'Basteln und Spielen' },
+    { img:'file/2020/12/10/IMG_7761_1.JPG', alt:'Waldtag', accent:true },
+    { img:'file/2022/06/29/20220628_125156_1.jpg', alt:'Gemeinsames Essen' },
+    { img:'file/2022/06/29/IMG_0662_1.JPG', alt:'Alltag in der Krippe' },
+  ],
+};
+
+// --- render helpers ---
+const $ = (id) => document.getElementById(id);
+const icBadge = (icon, variant='') => `<div class="ic-badge ${variant}"><svg class="ic"><use href="#ic-${icon}"></use></svg></div>`;
+
+$('angebotGrid').innerHTML = CONTENT.offers.map((o,i) =>
+  `<div class="card card-feature">${icBadge(o.icon, ['','accent','sun'][i%3])}<h3 class="t-head">${o.title}</h3><p class="muted" style="margin:0;">${o.text}</p></div>`
+).join('');
+
+$('dayList').innerHTML = CONTENT.day.map(d =>
+  `<div class="day-item"><span class="time">${d.time}</span><div><h3 class="t-head" style="margin:0 0 .15em;">${d.title}</h3><p class="muted" style="margin:0;">${d.text}</p></div></div>`
+).join('');
+
+$('tariffGrid').innerHTML = CONTENT.tariffs.map(t =>
+  `<div class="tariff ${t.tint?'card-tint':''}" ${t.tint?'style="background:var(--primary-soft);border:none;"':''}>
+     <p class="t-eyebrow" style="color:var(--accent);">${t.name}</p>
+     <p class="muted" style="margin:.3em 0 1em;">${t.range}</p>
+     <div class="price">${t.price}.– <small>${t.unit}</small></div>
+   </div>`
+).join('');
+
+$('docList').innerHTML = CONTENT.documents.map(doc =>
+  `<a class="doc" href="${doc.href}" ${doc.href==='#'?'aria-disabled="true"':'download'}>
+     ${icBadge('book')}
+     <span><span class="nm" style="display:block;">${doc.name}</span><span class="mt">${doc.meta}</span></span>
+     <span class="dl"><svg class="ic"><use href="#ic-arrow"></use></svg></span>
+   </a>`
+).join('');
+
+$('teamGrid').innerHTML = CONTENT.team.map(m =>
+  `<div class="team-card"><div class="ph has-img" data-label="Portrait"><img src="${m.img}" alt="${m.name}" loading="lazy"></div><h3 class="t-head" style="margin:14px 0 0;">${m.name}</h3><p class="muted" style="margin:0; font-size:.92rem;">${m.role}</p></div>`
+).join('');
+
+$('eventList').innerHTML = CONTENT.events.map(e =>
+  `<div class="event"><div class="date"><div class="d">${e.d}</div><div class="m">${e.m}</div></div><div><h3 class="t-head" style="margin:0 0 .1em;">${e.title}</h3><p class="muted" style="margin:0; font-size:.95rem;">${e.text}</p></div></div>`
+).join('');
+
+$('galleryGrid').innerHTML = CONTENT.gallery.map(g =>
+  `<div class="ph has-img ${g.accent?'accent':''}" data-label="${g.alt}"><img src="${g.img}" alt="${g.alt}" loading="lazy"></div>`
+).join('');
+
+// --- contact form: sendet direkt an info@zwirbelhus.ch via FormSubmit (AJAX, ohne Backend) ---
+const CONTACT_ENDPOINT = 'https://formsubmit.co/ajax/info@zwirbelhus.ch';
+$('contactForm').addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  const btn = $('cf-btn');
+  const note = $('cf-note');
+  const btnHtml = btn.innerHTML;
+  btn.disabled = true;
+  btn.textContent = 'Wird gesendet…';
+  note.style.color = '';
+  try {
+    const res = await fetch(CONTACT_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: 'Neue Anfrage über die Website – ' + ($('cf-name').value || ''),
+        _template: 'table',
+        _captcha: 'false',
+        Name: $('cf-name').value,
+        'E-Mail': $('cf-mail').value,
+        Telefon: $('cf-tel').value,
+        Bemerkungen: $('cf-msg').value,
+      }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !(data.success === 'true' || data.success === true)) throw new Error('send failed');
+    ev.target.reset();
+    note.style.color = 'var(--primary-ink)';
+    note.textContent = 'Vielen Dank! Ihre Nachricht wurde gesendet – wir melden uns bald bei Ihnen.';
+  } catch (err) {
+    note.style.color = 'var(--accent)';
+    note.innerHTML = 'Das Senden hat leider nicht geklappt. Bitte schreiben Sie uns direkt an <a href="mailto:info@zwirbelhus.ch">info@zwirbelhus.ch</a>.';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = btnHtml;
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="sonne" style="--radius-lg:42px; --radius-md:27px; --radius-sm:18px;">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Galerie · Alltag Fotos — Z'Wirbelhus Obermarch</title>
+<link rel="stylesheet" href="theme.css">
+<style>
+  /* ---- top bar + nav (shared with index) ---- */
+  .topbar { background: var(--primary-soft); color: var(--primary-ink); font-size: 0.85rem; font-weight: 600; font-family: var(--font-display); }
+  .topbar .wrap { display:flex; align-items:center; justify-content:space-between; min-height:42px; gap:18px; }
+  .topbar a { color: var(--primary-ink); text-decoration:none; display:inline-flex; align-items:center; gap:.4em; white-space:nowrap; }
+  .topbar .ic { width:1.1em; height:1.1em; }
+  @media (max-width: 600px){ .topbar .cluster:first-child { display:none; } }
+
+  .nav { position: sticky; top:0; z-index:40; background: color-mix(in oklab, var(--base) 90%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .nav .wrap { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; min-height:84px; gap:20px; }
+  .nav-links { display:flex; align-items:center; gap:22px; font-family: var(--font-display); font-weight:500; font-size:.98rem; }
+  .nav-links.right { justify-content:flex-end; }
+  .nav-links a { color: var(--ink); text-decoration:none; transition:color .15s; white-space:nowrap; }
+  .nav-links a:hover { color: var(--primary-ink); }
+  .logo { display:flex; flex-direction:column; align-items:center; gap:2px; text-decoration:none; }
+  .logo .mark { width:48px; height:48px; }
+  .logo .word { font-family: var(--font-display); font-weight:600; font-size:1.4rem; color: var(--ink); line-height:1; }
+  .logo .word b { color: var(--primary-ink); font-weight:600; }
+  @media (max-width: 1040px){ .nav-links { display:none; } .nav .wrap { grid-template-columns:1fr; justify-items:center; } }
+
+  .pagehead { padding: clamp(32px,5vw,60px) 0 clamp(20px,3vw,32px); }
+
+  /* uniform photo grid */
+  .masonry { display:grid; grid-template-columns: repeat(4,1fr); gap:16px; }
+  @media (max-width:1040px){ .masonry { grid-template-columns: repeat(3,1fr); } }
+  @media (max-width:760px){ .masonry { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width:460px){ .masonry { grid-template-columns: 1fr; } }
+  .masonry figure { margin:0; border-radius: var(--radius-md); overflow:hidden; box-shadow: var(--shadow-card); background: var(--surface); aspect-ratio: 1 / 1; }
+  .masonry img { display:block; width:100%; height:100%; object-fit: cover; transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
+  .masonry figure:hover img { transform: scale(1.04); }
+
+  .footer { background: var(--primary-soft); color: var(--ink); }
+  .footer .wrap { padding: 60px 28px 40px; }
+  .footer .cols { display:grid; grid-template-columns: 1.5fr 1fr 1fr; gap:30px; }
+  @media (max-width:760px){ .footer .cols { grid-template-columns:1fr 1fr; } }
+  @media (max-width:520px){ .footer .cols { grid-template-columns:1fr; } }
+  .footer .word { font-family: var(--font-display); font-weight:600; font-size:1.3rem; color: var(--ink); }
+  .footer a { color: var(--primary-ink); text-decoration:none; display:block; padding:2px 0; }
+  .footer small { color: var(--ink-soft); }
+  .pagelink { font-family: var(--font-display); font-weight:600; color:var(--primary-ink); text-decoration:none; display:inline-flex; gap:.5em; align-items:center; }
+  .pagelink:hover { gap:.8em; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="wrap">
+    <div class="cluster" style="gap:18px;">
+      <a href="https://www.instagram.com/zwirbelhus_siebnen/" target="_blank" rel="noopener"><svg class="ic"><use href="#ic-instagram"></use></svg> @zwirbelhus_siebnen</a>
+    </div>
+    <div class="cluster" style="gap:18px;">
+      <a href="mailto:info@zwirbelhus.ch"><svg class="ic"><use href="#ic-mail"></use></svg> info@zwirbelhus.ch</a>
+      <a href="tel:+41762908053"><svg class="ic"><use href="#ic-phone"></use></svg> 076 290 80 53</a>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap">
+    <div class="nav-links">
+      <a href="index.html#krippe">Unser Z'Wirbelhus</a>
+      <a href="index.html#angebot">Angebot</a>
+      <a href="index.html#alltag">Kitaalltag</a>
+      <a href="index.html#tarife">Tarife</a>
+    </div>
+    <a class="logo" href="index.html" aria-label="Z'Wirbelhus Startseite">
+      <svg class="mark" viewBox="0 0 48 48" fill="none" stroke="var(--primary)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 27 24 15.5 39 27"/>
+        <path d="M13 24.5V38.5a1.6 1.6 0 0 0 1.6 1.6h18.8a1.6 1.6 0 0 0 1.6-1.6V24.5"/>
+        <path d="M20.3 40v-5a3.7 3.7 0 0 1 7.4 0v5"/>
+        <path d="M24 16C24 10 27 6 31 6.5 35 7 35.5 12 31 13c-3 .7-4-2.4-2-3.4" stroke="var(--accent)"/>
+      </svg>
+      <span class="word">z'wirbel<b>hus</b></span>
+    </a>
+    <div class="nav-links right">
+      <a href="index.html#dokumente">Dokumente</a>
+      <a href="index.html#team">Team</a>
+      <a href="index.html#kontakt" class="btn btn-primary btn-sm" style="color:var(--on-primary);">Kennenlernen</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEAD -->
+<header class="pagehead">
+  <div class="wrap">
+    <a class="pagelink" href="index.html" style="margin-bottom:14px;"><svg class="ic" style="transform:rotate(180deg);"><use href="#ic-arrow"></use></svg> Zurück zur Startseite</a>
+    <p class="t-eyebrow" style="color:var(--accent);">Galerie</p>
+    <h1 class="t-display" style="margin:8px 0 12px;">Alltag Fotos.</h1>
+    <p class="lead" style="max-width:60ch;">Einblicke in unseren Krippenalltag – freies Spiel, Basteln, Waldtage, Ausflüge und gemeinsame Momente im Z'Wirbelhus.</p>
+  </div>
+</header>
+
+<!-- GALLERY -->
+<section class="section" style="padding-top:24px;">
+  <div class="wrap">
+    <div class="masonry" id="masonry"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <div class="cluster" style="gap:10px; margin-bottom:14px;">
+          <svg width="42" height="42" viewBox="0 0 48 48" fill="none" stroke="var(--primary)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 27 24 15.5 39 27"/><path d="M13 24.5V38.5a1.6 1.6 0 0 0 1.6 1.6h18.8a1.6 1.6 0 0 0 1.6-1.6V24.5"/><path d="M20.3 40v-5a3.7 3.7 0 0 1 7.4 0v5"/><path d="M24 16C24 10 27 6 31 6.5 35 7 35.5 12 31 13c-3 .7-4-2.4-2-3.4" stroke="var(--accent)"/>
+          </svg>
+          <span class="word">z'wirbelhus</span>
+        </div>
+        <p class="muted" style="max-width:32ch;">Kinderkrippe in Siebnen – fröhlich, bunt und professionell.</p>
+      </div>
+      <div>
+        <p class="t-eyebrow" style="margin-bottom:10px;">Seiten</p>
+        <a href="index.html#krippe">Unser Z'Wirbelhus</a>
+        <a href="index.html#angebot">Angebot</a>
+        <a href="index.html#tarife">Tarife</a>
+        <a href="index.html#dokumente">Dokumente</a>
+        <a href="index.html#kontakt">Kontakt</a>
+      </div>
+      <div>
+        <p class="t-eyebrow" style="margin-bottom:10px;">Kontakt</p>
+        <p class="muted" style="margin:0;">Z'Wirbelhus Obermarch<br>Fabrikstrasse 8<br>8854 Siebnen<br><a href="tel:+41762908053" style="display:inline;">076 290 80 53</a><br><a href="mailto:info@zwirbelhus.ch" style="display:inline;">info@zwirbelhus.ch</a></p>
+      </div>
+    </div>
+    <div style="margin-top:34px; padding-top:18px; border-top:1px solid var(--line);">
+      <small>© 2026 Z'Wirbelhus Obermarch · Siebnen</small>
+    </div>
+  </div>
+</footer>
+
+<script src="icons.js"></script>
+<script>
+const PHOTOS = [
+  // Highlights
+  'file/2025/01/10/IMG_7749_LR.jpg',
+  'file/2026/01/14/6.jpg',
+  'file/2024/11/22/IMG_9511.JPG',
+  // Alltag 2022
+  'file/2022/06/29/20210212_103635_1.jpg',
+  'file/2022/06/29/20210212_162738_1.jpg',
+  'file/2022/06/29/20210225_115207_1.jpg',
+  'file/2022/06/29/20210401_151130_1.jpg',
+  'file/2022/06/29/20210610_151939_1.jpg',
+  'file/2022/06/29/20210625_201028_1.jpg',
+  'file/2022/06/29/20220228_143326_1.jpg',
+  'file/2022/06/29/20220628_125156_1.jpg',
+  'file/2022/06/29/IMG_0421_1.JPG',
+  'file/2022/06/29/IMG_0440_1.JPG',
+  'file/2022/06/29/IMG_0454_1.JPG',
+  'file/2022/06/29/IMG_0662_1.JPG',
+  'file/2022/06/29/IMG_0678_1.JPG',
+  'file/2022/06/29/IMG_0841_1.JPG',
+  'file/2022/06/29/IMG_9023_1.JPG',
+  'file/2022/06/29/IMG_9511_1.JPG',
+  // Alltag 2020
+  'file/2020/12/10/IMG_20201112_WA0010_3.jpg',
+  'file/2020/12/10/IMG_20201105_WA0007_1.jpg',
+  'file/2020/12/10/IMG_7761_1.JPG',
+  'file/2020/12/10/20201202_153217_1.jpg',
+  'file/2020/12/10/20200911_103638_1.jpg',
+  'file/2020/12/10/20200910_135333_1.jpg',
+  'file/2020/12/10/12_1.jpg',
+  'file/2020/12/10/10_1_1.jpg',
+  'file/2020/12/10/8_1.jpg',
+  'file/2020/12/10/6_1.jpg',
+  'file/2020/12/10/4_1.jpg',
+  'file/2020/12/10/3_1_1.jpg',
+  'file/2020/12/10/2_1_1.jpg',
+  'file/2020/12/10/1_2_1.jpg',
+];
+document.getElementById('masonry').innerHTML = PHOTOS.map(src =>
+  `<figure><img src="${src}" alt="Alltag im Z'Wirbelhus" loading="lazy"></figure>`
+).join('');
+</script>
+</body>
+</html>

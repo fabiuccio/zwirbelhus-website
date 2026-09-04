@@ -23,19 +23,27 @@
   .logo .logo-img { display:block; width:172px; max-width:40vw; height:auto; }
   .footer-logo { display:block; width:154px; height:auto; }
   @media (max-width: 600px){ .logo .logo-img { width:148px; } }
-  @media (max-width: 1040px){ .nav-links { display:none; } .nav .wrap { grid-template-columns:1fr; justify-items:center; } }
-
-  /* mobile menu (simple) */
+  /* mobile menu */
   .menu-btn { display:none; }
   @media (max-width: 1040px){
-    .menu-btn { display:inline-flex; position:absolute; right:20px; top:24px; background:var(--primary-soft); color:var(--primary-ink); border:none; border-radius:999px; width:42px; height:42px; align-items:center; justify-content:center; cursor:pointer; }
+    .nav .wrap { grid-template-columns:1fr; justify-items:center; position:relative; }
+    .logo { order:-1; }
+    .menu-btn { display:inline-flex; position:absolute; right:20px; top:21px; background:var(--primary-soft); color:var(--primary-ink); border:none; border-radius:999px; width:42px; height:42px; align-items:center; justify-content:center; cursor:pointer; z-index:2; }
+    .menu-btn svg { width:22px; height:22px; }
+    .menu-btn .ic-close { display:none; }
+    .nav.open .menu-btn .ic-open { display:none; }
+    .nav.open .menu-btn .ic-close { display:inline; }
+    .nav-links { display:none; width:100%; flex-direction:column; align-items:center; gap:18px; }
+    .nav-links.right { justify-content:center; }
+    .nav.open .nav-links { display:flex; }
+    .nav.open .wrap { padding-bottom:22px; gap:14px; }
   }
 
   /* hero */
   .hero { position: relative; overflow: hidden; padding: clamp(40px,6vw,76px) 0 clamp(52px,7vw,90px); }
-  .hero .grid-hero { display:grid; grid-template-columns: 1.05fr 1fr; gap: 44px; align-items:center; }
+  .hero .grid-hero { display:grid; grid-template-columns: .8fr 1.2fr; gap: 44px; align-items:center; }
   @media (max-width: 920px){ .hero .grid-hero { grid-template-columns:1fr; } }
-  .hero .scene .ph { height: 420px; }
+  .hero .scene .ph { height:auto; aspect-ratio:3 / 2; }
   .float-heart svg { display:block; }
   .squiggle { position:absolute; pointer-events:none; color: var(--accent); }
 
@@ -45,10 +53,9 @@
   .stat .n { font-family: var(--font-display); font-weight:700; font-size: clamp(2rem,3.6vw,2.8rem); color: var(--primary-ink); line-height:1; }
   .stat .l { color: var(--ink-soft); font-size:.92rem; margin-top:6px; }
 
-  .day-item { display:grid; grid-template-columns: 96px 1fr; gap:22px; padding:18px 0; border-top:1px solid var(--line); align-items:start; }
-  .day-item .time { font-family: var(--font-display); font-weight:600; color: var(--primary-ink); }
-  .day-item:last-child { border-bottom:1px solid var(--line); }
-  @media (max-width:620px){ .day-item { grid-template-columns: 70px 1fr; gap:14px; } }
+  .alltag-preview { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:30px; }
+  .alltag-preview .ph { aspect-ratio:4 / 3; min-height:0; }
+  @media (max-width:680px){ .alltag-preview { grid-template-columns:1fr; } }
 
   .gallery { display:grid; grid-template-columns: repeat(4,1fr); grid-auto-rows: 150px; gap:16px; }
   .gallery .ph:nth-child(1){ grid-column: span 2; grid-row: span 2; }
@@ -59,6 +66,10 @@
   @media (max-width:880px){ .team-grid { grid-template-columns: repeat(2,1fr); } }
   .team-card { text-align:center; }
   .team-card .ph { height:0; padding-bottom:100%; border-radius:50%; }
+  .team-card .ph img {
+    object-position: center 22%;
+    filter: brightness(.96) contrast(.92) saturate(.9);
+  }
 
   /* document list */
   .doc-list { display:grid; grid-template-columns: repeat(2,1fr); gap:14px; }
@@ -141,6 +152,10 @@
 <!-- NAV -->
 <nav class="nav">
   <div class="wrap">
+    <button class="menu-btn" type="button" aria-label="Menü öffnen" aria-expanded="false">
+      <svg class="ic-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="ic-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
     <div class="nav-links">
       <a href="#krippe">Unser Z'Wirbelhus</a>
       <a href="#angebot">Angebot</a>
@@ -148,7 +163,7 @@
       <a href="#tarife">Tarife</a>
     </div>
     <a class="logo" href="#top" aria-label="Z'Wirbelhus Startseite">
-      <img class="logo-img" src="assets/img/logo-zwirbelhus.png" alt="Zwirbelhus">
+      <img class="logo-img" src="assets/img/new_logo.png" alt="Zwirbelhus">
     </a>
     <div class="nav-links right">
       <a href="galerie.html">Galerie</a>
@@ -158,6 +173,20 @@
     </div>
   </div>
 </nav>
+<script>
+(function(){
+  var nav=document.querySelector('.nav'); if(!nav) return;
+  var btn=nav.querySelector('.menu-btn'); if(!btn) return;
+  btn.addEventListener('click',function(){
+    var open=nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+    btn.setAttribute('aria-label', open ? 'Menü schliessen' : 'Menü öffnen');
+  });
+  nav.querySelectorAll('.nav-links a').forEach(function(a){
+    a.addEventListener('click',function(){ nav.classList.remove('open'); btn.setAttribute('aria-expanded','false'); btn.setAttribute('aria-label','Menü öffnen'); });
+  });
+})();
+</script>
 
 <!-- FREIE PLÄTZE BANNER -->
 <div class="freebanner">
@@ -175,7 +204,7 @@
       <div style="position:relative;">
         <div class="float-heart accent" style="top:-26px; left:-4px; font-size:22px;"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 20s-6.5-4.2-8.4-8.1C2.2 9.1 3.6 6 6.6 6c1.9 0 3 1.2 3.7 2.2.4.6 1 .6 1.4 0C12.4 7.2 13.5 6 15.4 6c3 0 4.4 3.1 3 5.9C16.5 15.8 12 20 12 20Z"/></svg></div>
         <p class="t-eyebrow">Kinderkrippe · Siebnen</p>
-        <h1 class="t-hero" style="margin-top:12px;">Wo chliini Wirbelwinde d'Wält entdecke.</h1>
+        <h1 class="t-hero" style="margin-top:12px;">Wo chlini Wirbelwind d'Wält entdecket.</h1>
         <p class="lead" style="max-width:50ch; margin-top:18px;">Das Z'Wirbelhus ist eine Kinderkrippe in Siebnen. Wir betreuen Kinder ab drei Monaten bis zum Kindergarteneintritt in einem kleinen, familiären und professionellen Umfeld.</p>
         <div class="cluster" style="margin-top:28px; gap:16px;">
           <a class="btn btn-primary btn-lg" href="#kontakt">Kitaplatz anfragen <svg class="ic"><use href="#ic-arrow"></use></svg></a>
@@ -184,12 +213,11 @@
         <div class="cluster" style="margin-top:28px; gap:10px;">
           <span class="chip is-primary"><svg class="ic" style="width:1.05em;height:1.05em"><use href="#ic-clock"></use></svg> Mo–Fr 06:30–18:00</span>
           <span class="chip"><svg class="ic" style="width:1.05em;height:1.05em"><use href="#ic-house"></use></svg> 15 Tagesplätze</span>
-          <span class="chip"><svg class="ic" style="width:1.05em;height:1.05em"><use href="#ic-leaf"></use></svg> Waldtage</span>
         </div>
         <svg class="squiggle" style="bottom:-44px; left:10%; width:280px; height:60px;" viewBox="0 0 280 60" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="1 11"><path d="M6 18 C 60 56, 120 56, 160 30 S 240 4, 274 40"/></svg>
       </div>
       <div class="scene" style="position:relative;">
-        <div class="ph blob has-img" data-label="Foto · Kinder beim Spielen"><img src="file/2025/01/10/IMG_7749_LR.jpg" alt="Kinder beim Spielen im Z'Wirbelhus" loading="eager"></div>
+        <div class="ph blob has-img" data-label="Foto · Team Z'Wirbelhus"><img src="file/2026/unserekita/CH26_Zwirbelhus_02124.jpg" alt="Das Team des Z'Wirbelhus auf dem Spielplatz" loading="eager"></div>
         <div class="float-heart" style="top:8%; right:4%; font-size:28px;"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M12 20s-6.5-4.2-8.4-8.1C2.2 9.1 3.6 6 6.6 6c1.9 0 3 1.2 3.7 2.2.4.6 1 .6 1.4 0C12.4 7.2 13.5 6 15.4 6c3 0 4.4 3.1 3 5.9C16.5 15.8 12 20 12 20Z"/></svg></div>
         <div class="float-heart sun" style="bottom:12%; left:-2%; font-size:18px;"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 20s-6.5-4.2-8.4-8.1C2.2 9.1 3.6 6 6.6 6c1.9 0 3 1.2 3.7 2.2.4.6 1 .6 1.4 0C12.4 7.2 13.5 6 15.4 6c3 0 4.4 3.1 3 5.9C16.5 15.8 12 20 12 20Z"/></svg></div>
       </div>
@@ -211,7 +239,7 @@
 <section class="section" id="krippe">
   <div class="wrap">
     <div class="grid grid-2" style="align-items:center; gap:48px;">
-      <div class="ph has-img" data-label="Foto · helle Gruppenräume" style="height:360px;"><img src="file/2026/01/14/6.jpg" alt="Helle Gruppenräume im Z'Wirbelhus" loading="lazy"></div>
+      <div class="ph has-img" data-label="Foto · helle Gruppenräume" style="height:360px;"><img src="file/2026/unserekita/CH26_Zwirbelhus_01858.jpg" alt="Helle Gruppenräume im Z'Wirbelhus" loading="lazy"></div>
       <div>
         <p class="t-eyebrow" style="color:var(--accent);">Unser Z'Wirbelhus</p>
         <h2 class="t-display" style="margin-top:10px;">Klein, familiär und professionell.</h2>
@@ -243,14 +271,19 @@
 <!-- KITAALLTAG -->
 <section class="section" id="alltag">
   <div class="wrap">
-    <div class="grid grid-2" style="gap:48px; align-items:start;">
-      <div>
-        <p class="t-eyebrow" style="color:var(--accent);">Unser Krippenalltag</p>
-        <h2 class="t-display" style="margin:8px 0 14px;">Ein vertrauter Tagesrhythmus.</h2>
-        <p class="muted">Wiederkehrende Fixpunkte geben den Kindern Sicherheit – dazwischen bleibt viel Raum für freies Spiel und eigene Entdeckungen.</p>
-        <a class="btn btn-soft" href="#kontakt" style="margin-top:18px;"><svg class="ic"><use href="#ic-sparkle"></use></svg> Schnuppertag vereinbaren</a>
-      </div>
-      <div id="dayList"></div>
+    <div class="sec-eyebrow">
+      <p class="t-eyebrow" style="color:var(--accent);">Unser Krippenalltag</p>
+      <h2 class="t-display" style="margin:0;">Gemeinsam entdecken, spielen und erleben.</h2>
+      <p class="muted" style="margin:0;">Ein paar Einblicke in unseren bunten Alltag im Z'Wirbelhus.</p>
+    </div>
+    <div class="alltag-preview">
+      <div class="ph has-img"><img src="file/2026/unserekita/CH26_Zwirbelhus_01858.jpg" alt="Einblick in den Alltag im Z'Wirbelhus" loading="lazy"></div>
+      <div class="ph has-img"><img src="file/2026/unserekita/CH26_Zwirbelhus_01933.jpg" alt="Kinder beim Spielen im Z'Wirbelhus" loading="lazy"></div>
+      <div class="ph has-img"><img src="file/2026/unserekita/CH26_Zwirbelhus_01910.jpg" alt="Gemeinsame Aktivität im Z'Wirbelhus" loading="lazy"></div>
+    </div>
+    <div class="cluster" style="margin-top:24px; gap:14px;">
+      <a class="btn btn-soft" href="galerie.html"><svg class="ic"><use href="#ic-arrow"></use></svg> Mehr aus unserem Alltag</a>
+      <a class="btn btn-ghost" href="#kontakt">Schnuppertag vereinbaren</a>
     </div>
   </div>
 </section>
@@ -264,6 +297,8 @@
         <h2 class="t-title" style="margin:14px 0 10px;">Unsere Zeiten</h2>
         <p>Das Z'Wirbelhus ist von Montag bis Freitag von 06:30 bis 18:00 Uhr geöffnet.</p>
         <div class="cluster" style="gap:10px; margin-top:8px;">
+          <span class="chip">Halbtag Vormittag 06:30–11:30</span>
+          <span class="chip">Halbtag Nachmittag 13:30–18:00</span>
           <span class="chip is-primary">Bringzeiten 06:30–08:30</span>
           <span class="chip is-primary">Abholzeiten 16:30–18:00</span>
         </div>
@@ -285,6 +320,14 @@
       <h2 class="t-display" style="margin:0;">Transparente Preise pro Tag.</h2>
     </div>
     <div class="tariff-grid" id="tariffGrid"></div>
+    <div class="card card-tint" style="margin-top:20px; display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap;">
+      <div>
+        <p class="t-eyebrow" style="color:var(--accent); margin-bottom:6px;">Halbtagesbetreuung</p>
+        <h3 class="t-head" style="margin:0 0 6px;">Halber Tag</h3>
+        <p class="muted" style="margin:0;">Kontaktieren Sie uns für weitere Informationen zu den verfügbaren Halbtagen und Preisen.</p>
+      </div>
+      <a class="btn btn-primary" href="#kontakt">Mehr erfahren <svg class="ic"><use href="#ic-arrow"></use></svg></a>
+    </div>
     <div class="note" style="margin-top:20px;">
       <svg class="ic" style="width:24px;"><use href="#ic-heart"></use></svg>
       <div>
@@ -327,9 +370,9 @@
     <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px; margin-bottom:32px;">
       <div class="sec-eyebrow" style="margin-bottom:0;">
         <p class="t-eyebrow" style="color:var(--accent);">Galerie</p>
-        <h2 class="t-display" style="margin:0;">Einblicke in unseren Alltag.</h2>
+        <h2 class="t-display" style="margin:0;">Einblicke ins Z'Wirbelhus.</h2>
       </div>
-      <a class="pagelink" href="galerie.html">Alle Fotos <svg class="ic"><use href="#ic-arrow"></use></svg></a>
+      <a class="pagelink" href="kita.html">Zur Galerie <svg class="ic"><use href="#ic-arrow"></use></svg></a>
     </div>
     <div class="gallery" id="galleryGrid"></div>
   </div>
@@ -418,7 +461,7 @@
   <div class="wrap">
     <div class="cols">
       <div>
-        <img class="footer-logo" src="assets/img/logo-zwirbelhus.png" alt="Zwirbelhus" style="margin-bottom:14px;">
+        <img class="footer-logo" src="assets/img/new_logo.png" alt="Zwirbelhus" style="margin-bottom:14px;">
         <p class="muted" style="max-width:32ch;">Kinderkrippe in Siebnen – fröhlich, bunt und professionell.</p>
       </div>
       <div>
@@ -461,27 +504,15 @@ const CONTENT = {
     { icon:'smile',  title:'Altersgemischte Gruppe', text:'Eine Kindergruppe ab 3 Monaten bis zum Kindergarteneintritt.' },
     { icon:'heart',  title:'Familiäres Umfeld', text:'Professionelle Betreuung in kleinem, familiärem Rahmen.' },
     { icon:'cup',    title:'Eigene Küche', text:'Frische, gesunde und abwechslungsreiche Ernährung aus der eigenen Küche.' },
-    { icon:'leaf',   title:'Wald & Projekte', text:'Regelmässige Waldbesuche, Waldwochen und Projektwochen zu verschiedenen Themen.' },
+    { icon:'leaf',   title:'Wald & Projekte', text:'Waldwochen und Projektwochen zu verschiedenen Themen.' },
     { icon:'sun',    title:'Ausflüge', text:'Ausflüge über das ganze Jahr verteilt.' },
     { icon:'star',   title:'Tägliche Aktivitäten', text:'Abwechslungsreiche Aktivitäten im Tagesablauf.' },
     { icon:'clock',  title:'Flexibel', text:'Möglichkeit, den Betreuungstag in der selben Woche zu wechseln.' },
     { icon:'book',   title:'Zusammenarbeit', text:'Enge und vertrauensvolle Zusammenarbeit mit den Eltern.' },
   ],
-  day: [
-    { time:'06:30', title:'Türöffnung & Freispiel', text:'Sanftes Ankommen und freies Spiel. Bringzeit bis 08:30 Uhr.' },
-    { time:'08:30', title:'Morgenritual', text:'Wir starten den Tag mit unserem gemeinsamen Morgenritual.' },
-    { time:'08:45', title:'Znüni', text:'Gemeinsames Znüni in der Gruppe.' },
-    { time:'09:30', title:'Wickelzeit & Singkreis', text:'Wickelzeit, Singkreis und Tagesbesprechung.' },
-    { time:'10:00', title:'Aktivitäten & Freispiel', text:'Malen, basteln, singen, spielen, Spaziergänge, Spielplatz oder geführte Aktivitäten.' },
-    { time:'11:45', title:'Mittagessen', text:'Frisch zubereitetes Mittagessen, das zum Teil mit den Kindern gekocht wird.' },
-    { time:'12:30', title:'Mittagsschlaf & Mittagsruhe', text:'Schlafen oder ruhen – nicht schlafende Kinder schauen Bücher an oder hören Geschichten.' },
-    { time:'14:00', title:'Aktivitäten & Freispiel', text:'Spielerische Förderung: malen, basteln, singen, draussen sein oder geführte Aktivitäten.' },
-    { time:'15:30', title:'Zvieri', text:'Zvieri – je nach Wetter auch draussen.' },
-    { time:'16:30', title:'Abholzeit', text:'Wickelzeit und Freispiel, die Kinder werden abgeholt. Krippe schliesst um 18:00 Uhr.' },
-  ],
   tariffs: [
     { name:'Babytarif', range:'3–18 Monate · 06:30–18:00, ganzer Tag', price:'145', unit:'CHF / Tag', tint:false },
-    { name:'Kindertarif', range:'19 Monate bis Kindergarteneintritt · ganzer Tag', price:'135', unit:'CHF / Tag', tint:true },
+    { name:'Kindertarif', range:'Kinder ab 19 Monaten · 06:30–18:00, ganzer Tag', price:'135', unit:'CHF / Tag', tint:true },
   ],
   documents: [
     { name:'Betriebsreglement', meta:'PDF', href:'repository/Betriebsregelment.pdf' },
@@ -492,14 +523,16 @@ const CONTENT = {
     { name:'Jahresprogramm 2026', meta:'PDF', href:'repository/Jahresprogramm_Eltern_2026.pdf' },
   ],
   team: [
-    { name:'Gabriela Waser', role:'Krippenleiterin & Berufsbildnerin', img:'file/2025/11/18/IMG_0240_1_1.jpeg' },
-    { name:'Nicole Lienert', role:'Pädagogisch ausgebildete Mitarbeiterin', img:'file/2025/05/28/IMG_0017_1.jpeg' },
-    { name:'Julia Diethelm', role:'Pädagogisch ausgebildete Mitarbeiterin', img:'file/2025/01/28/Homepage_JD.jpg' },
-    { name:'Corinne Schoch', role:'Pädagogisch ausgebildete Mitarbeiterin', img:'file/2025/01/28/Homepage_CS_4.jpg' },
-    { name:'Vanessa Vogt', role:'Auszubildende im ersten Lehrjahr', img:'file/2025/10/30/IMG_4642_1_2.jpeg' },
-    { name:'Fränzi Hegner', role:'Pädagogisch qualifizierte Springerin', img:'file/2025/01/28/Homepage_FH_3.jpg' },
-    { name:'Jasmin Ziegler', role:'Pädagogisch qualifizierte Springerin', img:'file/2025/06/02/IMG_0030.jpeg' },
-    { name:'Lisa Lichtsteiner', role:'Pädagogisch qualifizierte Springerin', img:'file/2025/05/28/IMG_0022_1.jpeg' },
+    { name:'Gabriela Waser', role:'Krippenleiterin & Berufsbildnerin', img:'file/team/gabriela.jpg' },
+    { name:'Nicole Lienert', role:'Pädagogisch ausgebildete Mitarbeiterin', img:'file/team/Nicole_lienert.jpg' },
+    { name:'Julia Diethelm', role:'Pädagogisch ausgebildete Mitarbeiterin', img:'file/team/julia_diethelm.jpg' },
+    { name:'Corinne Schoch', role:'Pädagogisch ausgebildete Mitarbeiterin', img:'file/team/corinne_schoch.jpg' },
+    { name:'Vanessa Vogt', role:'Auszubildende im ersten Lehrjahr', img:'file/team/vanessa_vogt.jpg' },
+    { name:'Fränzi Hegner', role:'Pädagogisch ausgebildete Springerin', img:'file/team/franzi_hegner.jpg' },
+    { name:'Jasmin Ziegler', role:'Pädagogisch ausgebildete Springerin', img:'file/team/jasmin_ziegler.jpg' },
+    { name:'Lisa Lichtsteiner', role:'Pädagogisch ausgebildete Springerin', img:'file/team/lisa_lichtsteiner_springerin.jpg' },
+    { name:'Petra Diethelm', role:'Pädagogisch ausgebildete Springerin', img:'file/team/petra_diethelm_springerin.jpg' },
+    { name:'Rosmarie Scorza', role:'Köchin', img:'file/team/CH26_Zwirbelhus_02054.jpg' },
   ],
   // Aus dem Jahresprogramm 2026 (Familien-Anlässe) — keine erfundenen Termine.
   events: [
@@ -512,12 +545,12 @@ const CONTENT = {
     { d:'04', m:'Nov', title:'Laternenumzug', text:'Für alle Eltern und Kinder.' },
   ],
   gallery: [
-    { img:'file/2022/06/29/IMG_0678_1.JPG', alt:'Kinder im Z\'Wirbelhus' },
-    { img:'file/2022/06/29/20210610_151939_1.jpg', alt:'Draussen spielen', accent:true },
-    { img:'file/2022/06/29/IMG_0421_1.JPG', alt:'Basteln und Spielen' },
-    { img:'file/2020/12/10/IMG_7761_1.JPG', alt:'Waldtag', accent:true },
-    { img:'file/2022/06/29/20220628_125156_1.jpg', alt:'Gemeinsames Essen' },
-    { img:'file/2022/06/29/IMG_0662_1.JPG', alt:'Alltag in der Krippe' },
+    { img:'file/2026/unserekita/CH26_Zwirbelhus_01827.jpg', alt:'Unsere Gruppenräume' },
+    { img:'file/2026/03/WhatsApp%20Image%202026-07-08%20at%2014.01.10.jpeg', alt:'Kinder beim Spielen', accent:true },
+    { img:'file/2026/unserekita/CH26_Zwirbelhus_01860.jpg', alt:'Gemütliche Spielecke' },
+    { img:'file/2026/03/WhatsApp%20Image%202026-07-08%20at%2014.01.10%20(1).jpeg', alt:'Draussen spielen', accent:true },
+    { img:'file/2026/unserekita/CH26_Zwirbelhus_01901.jpg', alt:'Liebevoll gestaltete Räume' },
+    { img:'file/2026/03/WhatsApp%20Image%202026-07-08%20at%2014.01.10%20(2).jpeg', alt:'Basteln und Spielen' },
   ],
 };
 
@@ -527,10 +560,6 @@ const icBadge = (icon, variant='') => `<div class="ic-badge ${variant}"><svg cla
 
 $('angebotGrid').innerHTML = CONTENT.offers.map((o,i) =>
   `<div class="card card-feature">${icBadge(o.icon, ['','accent','sun'][i%3])}<h3 class="t-head">${o.title}</h3><p class="muted" style="margin:0;">${o.text}</p></div>`
-).join('');
-
-$('dayList').innerHTML = CONTENT.day.map(d =>
-  `<div class="day-item"><span class="time">${d.time}</span><div><h3 class="t-head" style="margin:0 0 .15em;">${d.title}</h3><p class="muted" style="margin:0;">${d.text}</p></div></div>`
 ).join('');
 
 $('tariffGrid').innerHTML = CONTENT.tariffs.map(t =>
@@ -550,7 +579,7 @@ $('docList').innerHTML = CONTENT.documents.map(doc =>
 ).join('');
 
 $('teamGrid').innerHTML = CONTENT.team.map(m =>
-  `<div class="team-card"><div class="ph has-img" data-label="Portrait"><img src="${m.img}" alt="${m.name}" loading="lazy"></div><h3 class="t-head" style="margin:14px 0 0;">${m.name}</h3><p class="muted" style="margin:0; font-size:.92rem;">${m.role}</p></div>`
+  `<div class="team-card" itemscope itemtype="https://schema.org/Person"><div class="ph has-img" data-label="Portrait"><img src="${m.img}" alt="${m.name} – ${m.role} im Z'Wirbelhus Obermarch" title="${m.name}" loading="lazy" itemprop="image"></div><h3 class="t-head" style="margin:14px 0 0;" itemprop="name">${m.name}</h3><p class="muted" style="margin:0; font-size:.92rem;" itemprop="jobTitle">${m.role}</p></div>`
 ).join('');
 
 $('eventList').innerHTML = CONTENT.events.map(e =>
@@ -599,5 +628,6 @@ $('contactForm').addEventListener('submit', async (ev) => {
   }
 });
 </script>
+<script src="lightbox.js"></script>
 </body>
 </html>

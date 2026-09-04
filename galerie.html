@@ -23,9 +23,28 @@
   .logo .logo-img { display:block; width:172px; max-width:40vw; height:auto; }
   .footer-logo { display:block; width:154px; height:auto; }
   @media (max-width: 600px){ .logo .logo-img { width:148px; } }
-  @media (max-width: 1040px){ .nav-links { display:none; } .nav .wrap { grid-template-columns:1fr; justify-items:center; } }
+  .menu-btn { display:none; }
+  @media (max-width: 1040px){
+    .nav .wrap { grid-template-columns:1fr; justify-items:center; position:relative; }
+    .logo { order:-1; }
+    .menu-btn { display:inline-flex; position:absolute; right:20px; top:21px; background:var(--primary-soft); color:var(--primary-ink); border:none; border-radius:999px; width:42px; height:42px; align-items:center; justify-content:center; cursor:pointer; z-index:2; }
+    .menu-btn svg { width:22px; height:22px; }
+    .menu-btn .ic-close { display:none; }
+    .nav.open .menu-btn .ic-open { display:none; }
+    .nav.open .menu-btn .ic-close { display:inline; }
+    .nav-links { display:none; width:100%; flex-direction:column; align-items:center; gap:18px; }
+    .nav-links.right { justify-content:center; }
+    .nav.open .nav-links { display:flex; }
+    .nav.open .wrap { padding-bottom:22px; gap:14px; }
+  }
 
   .pagehead { padding: clamp(32px,5vw,60px) 0 clamp(20px,3vw,32px); }
+
+  /* gallery tabs */
+  .gal-tabs { display:inline-flex; gap:6px; padding:5px; background: var(--primary-soft); border-radius:999px; margin-bottom:22px; }
+  .gal-tabs a { font-family: var(--font-display); font-weight:600; font-size:.95rem; text-decoration:none; color: var(--primary-ink); padding:8px 20px; border-radius:999px; transition: background .15s, color .15s; white-space:nowrap; }
+  .gal-tabs a.is-active { background: var(--primary); color: var(--on-primary); }
+  .gal-tabs a:not(.is-active):hover { background: color-mix(in oklab, var(--primary) 16%, transparent); }
 
   /* uniform photo grid */
   .masonry { display:grid; grid-template-columns: repeat(4,1fr); gap:16px; }
@@ -66,6 +85,10 @@
 <!-- NAV -->
 <nav class="nav">
   <div class="wrap">
+    <button class="menu-btn" type="button" aria-label="Menü öffnen" aria-expanded="false">
+      <svg class="ic-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="ic-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
     <div class="nav-links">
       <a href="index.html#krippe">Unser Z'Wirbelhus</a>
       <a href="index.html#angebot">Angebot</a>
@@ -73,7 +96,7 @@
       <a href="index.html#tarife">Tarife</a>
     </div>
     <a class="logo" href="index.html" aria-label="Z'Wirbelhus Startseite">
-      <img class="logo-img" src="assets/img/logo-zwirbelhus.png" alt="Zwirbelhus">
+      <img class="logo-img" src="assets/img/new_logo.png" alt="Zwirbelhus">
     </a>
     <div class="nav-links right">
       <a href="index.html#dokumente">Dokumente</a>
@@ -82,11 +105,29 @@
     </div>
   </div>
 </nav>
+<script>
+(function(){
+  var nav=document.querySelector('.nav'); if(!nav) return;
+  var btn=nav.querySelector('.menu-btn'); if(!btn) return;
+  btn.addEventListener('click',function(){
+    var open=nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+    btn.setAttribute('aria-label', open ? 'Menü schliessen' : 'Menü öffnen');
+  });
+  nav.querySelectorAll('.nav-links a').forEach(function(a){
+    a.addEventListener('click',function(){ nav.classList.remove('open'); btn.setAttribute('aria-expanded','false'); btn.setAttribute('aria-label','Menü öffnen'); });
+  });
+})();
+</script>
 
 <!-- PAGE HEAD -->
 <header class="pagehead">
   <div class="wrap">
     <a class="pagelink" href="index.html" style="margin-bottom:14px;"><svg class="ic" style="transform:rotate(180deg);"><use href="#ic-arrow"></use></svg> Zurück zur Startseite</a>
+    <div class="gal-tabs">
+      <a href="kita.html">Unsere Kita</a>
+      <a href="galerie.html" class="is-active">Unser Alltag</a>
+    </div>
     <p class="t-eyebrow" style="color:var(--accent);">Galerie</p>
     <h1 class="t-display" style="margin:8px 0 12px;">Alltag Fotos.</h1>
     <p class="lead" style="max-width:60ch;">Einblicke in unseren Krippenalltag – freies Spiel, Basteln, Waldtage, Ausflüge und gemeinsame Momente im Z'Wirbelhus.</p>
@@ -105,7 +146,7 @@
   <div class="wrap">
     <div class="cols">
       <div>
-        <img class="footer-logo" src="assets/img/logo-zwirbelhus.png" alt="Zwirbelhus" style="margin-bottom:14px;">
+        <img class="footer-logo" src="assets/img/new_logo.png" alt="Zwirbelhus" style="margin-bottom:14px;">
         <p class="muted" style="max-width:32ch;">Kinderkrippe in Siebnen – fröhlich, bunt und professionell.</p>
       </div>
       <div>
@@ -130,46 +171,28 @@
 <script src="icons.js"></script>
 <script>
 const PHOTOS = [
-  // Highlights
-  'file/2025/01/10/IMG_7749_LR.jpg',
-  'file/2026/01/14/6.jpg',
-  'file/2024/11/22/IMG_9511.JPG',
-  // Alltag 2022
-  'file/2022/06/29/20210212_103635_1.jpg',
-  'file/2022/06/29/20210212_162738_1.jpg',
-  'file/2022/06/29/20210225_115207_1.jpg',
-  'file/2022/06/29/20210401_151130_1.jpg',
-  'file/2022/06/29/20210610_151939_1.jpg',
-  'file/2022/06/29/20210625_201028_1.jpg',
-  'file/2022/06/29/20220228_143326_1.jpg',
-  'file/2022/06/29/20220628_125156_1.jpg',
-  'file/2022/06/29/IMG_0421_1.JPG',
-  'file/2022/06/29/IMG_0440_1.JPG',
-  'file/2022/06/29/IMG_0454_1.JPG',
-  'file/2022/06/29/IMG_0662_1.JPG',
-  'file/2022/06/29/IMG_0678_1.JPG',
-  'file/2022/06/29/IMG_0841_1.JPG',
-  'file/2022/06/29/IMG_9023_1.JPG',
-  'file/2022/06/29/IMG_9511_1.JPG',
-  // Alltag 2020
-  'file/2020/12/10/IMG_20201112_WA0010_3.jpg',
-  'file/2020/12/10/IMG_20201105_WA0007_1.jpg',
-  'file/2020/12/10/IMG_7761_1.JPG',
-  'file/2020/12/10/20201202_153217_1.jpg',
-  'file/2020/12/10/20200911_103638_1.jpg',
-  'file/2020/12/10/20200910_135333_1.jpg',
-  'file/2020/12/10/12_1.jpg',
-  'file/2020/12/10/10_1_1.jpg',
-  'file/2020/12/10/8_1.jpg',
-  'file/2020/12/10/6_1.jpg',
-  'file/2020/12/10/4_1.jpg',
-  'file/2020/12/10/3_1_1.jpg',
-  'file/2020/12/10/2_1_1.jpg',
-  'file/2020/12/10/1_2_1.jpg',
+  // Alltag 2026/03
+  'file/2026/03/WhatsApp%20Image%202026-07-08%20at%2014.01.10.jpeg',
+  'file/2026/03/WhatsApp%20Image%202026-07-08%20at%2014.01.10%20(1).jpeg',
+  'file/2026/03/WhatsApp%20Image%202026-07-08%20at%2014.01.10%20(2).jpeg',
+  'file/2026/03/WhatsApp%20Image%202026-07-08%20at%2014.01.10%20(3).jpeg',
+  'file/2026/03/WhatsApp%20Image%202026-07-08%20at%2014.01.10%20(4).jpeg',
+  'file/2026/03/WhatsApp%20Image%202026-07-08%20at%2014.01.10%20(5).jpeg',
+  'file/2026/03/WhatsApp%20Image%202026-07-08%20at%2014.01.10%20(6).jpeg',
+  'file/2026/03/WhatsApp%20Image%202026-07-08%20at%2014.01.10%20(7).jpeg',
+  'file/2026/03/WhatsApp%20Image%202026-07-08%20at%2014.01.10%20(8).jpeg',
+  'file/2026/03/WhatsApp%20Image%202026-07-08%20at%2014.01.10%20(9).jpeg',
+  'file/2026/03/WhatsApp%20Image%202026-07-08%20at%2014.01.10%20(10).jpeg',
+  'file/2026/03/WhatsApp%20Image%202026-07-08%20at%2014.01.10%20(11).jpeg',
+  'file/2026/03/WhatsApp%20Image%202026-07-08%20at%2014.01.11.jpeg',
+  'file/2026/unserekita/CH26_Zwirbelhus_01858.jpg',
+  'file/2026/unserekita/CH26_Zwirbelhus_01933.jpg',
+  'file/2026/unserekita/CH26_Zwirbelhus_01910.jpg',
 ];
 document.getElementById('masonry').innerHTML = PHOTOS.map(src =>
   `<figure><img src="${src}" alt="Alltag im Z'Wirbelhus" loading="lazy"></figure>`
 ).join('');
 </script>
+<script src="lightbox.js"></script>
 </body>
 </html>

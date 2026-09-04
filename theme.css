@@ -351,3 +351,41 @@ a { color: var(--primary-ink); text-decoration-color: color-mix(in oklab, var(--
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
   body { font-size: 17px; }
 }
+
+/* ============================================================
+   PHOTO LIGHTBOX
+   ============================================================ */
+.masonry img, .gallery img, .alltag-preview img { cursor: zoom-in; }
+.photo-lightbox {
+  width: 100vw; max-width: none; height: 100vh; max-height: none;
+  margin: 0; padding: 0; border: 0; background: transparent; color: white;
+}
+.photo-lightbox::backdrop { background: rgb(8 20 25 / 92%); }
+.photo-lightbox__stage {
+  width: 100%; height: 100%; display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) 72px;
+  grid-template-rows: 1fr auto; align-items: center; gap: 16px; padding: 24px;
+}
+.photo-lightbox__figure {
+  min-width: 0; min-height: 0; height: 100%; margin: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+}
+.photo-lightbox__image {
+  display: block; max-width: 100%; max-height: calc(100vh - 100px);
+  object-fit: contain; border-radius: var(--radius-sm); box-shadow: 0 24px 70px rgb(0 0 0 / 45%);
+}
+.photo-lightbox__caption { min-height: 1.5em; margin: 0; color: white; text-align: center; font-size: .9rem; }
+.photo-lightbox__button {
+  width: 48px; height: 48px; display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid rgb(255 255 255 / 28%); border-radius: 999px;
+  background: rgb(255 255 255 / 12%); color: white; font-size: 2rem; line-height: 1; cursor: pointer;
+}
+.photo-lightbox__button:hover { background: rgb(255 255 255 / 22%); }
+.photo-lightbox__button:focus-visible { outline: 3px solid white; outline-offset: 3px; }
+.photo-lightbox__prev, .photo-lightbox__next { justify-self: center; }
+.photo-lightbox__close { position: fixed; top: 18px; right: 18px; z-index: 1; }
+.photo-lightbox__counter { grid-column: 1 / -1; justify-self: center; font-size: .82rem; color: rgb(255 255 255 / 78%); }
+@media (max-width: 680px) {
+  .photo-lightbox__stage { grid-template-columns: 48px minmax(0, 1fr) 48px; gap: 6px; padding: 64px 8px 16px; }
+  .photo-lightbox__button { width: 42px; height: 42px; }
+}
